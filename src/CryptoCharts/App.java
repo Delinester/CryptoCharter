@@ -28,7 +28,8 @@ public class App extends Application{
     public void start(Stage primaryStage) throws Exception {  
         // TODO clean the mess
         //AuthWindow auth = new AuthWindow();
-        ScenesManager scenesManager = new ScenesManager(primaryStage);
+        ScenesManager scenesManager = ScenesManager.getInstance();
+        scenesManager.setMainStage(primaryStage);
         DB_Manager db = DB_Manager.getInstance();
         primaryStage.show();
         if (false) {
