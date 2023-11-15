@@ -30,7 +30,9 @@ public class App extends Application{
         //AuthWindow auth = new AuthWindow();
         primaryStage.setResizable(false);
         primaryStage.setTitle("Crypto Charter");
+
         ScenesManager scenesManager = ScenesManager.getInstance();
+        
         scenesManager.setMainStage(primaryStage);
         DB_Manager db = DB_Manager.getInstance();
         primaryStage.show();

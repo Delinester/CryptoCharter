@@ -15,7 +15,7 @@ public class ScenesManager
     public void setMainStage(Stage mainStage) 
     {
         mainStageRef = mainStage;
-        openAuthWindow();
+        openMainWindow();
     }
 
     public void openAuthWindow() 
@@ -23,13 +23,21 @@ public class ScenesManager
         mainStageRef.setScene(authWindow);
     }
 
+    public void openMainWindow()
+    {
+        mainWindow.constructChart("LINAUSDT", "d");
+        mainStageRef.setScene(mainWindow);   
+    }
+
 
     private ScenesManager()
     {
         authWindow = new AuthWindow();
+        mainWindow = new MainWindow();
     }
 
     private AuthWindow authWindow;
+    private MainWindow mainWindow;
     private Stage mainStageRef;
     
 }

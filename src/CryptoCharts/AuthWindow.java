@@ -1,7 +1,7 @@
 package CryptoCharts;
 
 import javafx.stage.Stage;
-
+import javafx.geometry.Dimension2D;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,7 +20,7 @@ public class AuthWindow extends Scene
 {
     public AuthWindow()
     {
-        super(new GridPane(), 600,400);
+        super(new GridPane(), windowWidth, windowHeight);
         authHandler = new AuthHandler(loginButton, signUpButton, usernameTextField, passwordTextField, infoMessage);
         GridPane rootLayout = (GridPane)this.getRoot();
         
@@ -68,6 +68,9 @@ public class AuthWindow extends Scene
         //this.setScene(authScene);  
         //this.show();  
     }
+
+    private final static int windowWidth = 600;
+    private final static int windowHeight = 400;
 
     private final double maxInputFieldWidth = 150D;
     private final int headerFontSize = 45;

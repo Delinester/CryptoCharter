@@ -19,7 +19,7 @@ public class DB_Manager implements AutoCloseable {
     public boolean initializeConnection() {
         try {
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/users?autoReconnect=true&useSSL=false", "root", "Delinester1429");
+                    "jdbc:mysql://localhost:3306/" + DATABASE_NAME + "?autoReconnect=true&useSSL=false", "root", "Delinester1429");
             System.out.println("Connection to DB: SUCCESS");
         } catch (SQLException e) {
             System.out.println("Coudn't create connection: " + e.getMessage());
@@ -32,7 +32,7 @@ public class DB_Manager implements AutoCloseable {
         Statement statement = null;
         try {
             statement = connection.createStatement();
-            String payload = "INSERT INTO DATA (username, password) VALUES (" + "\'" + userName + "\'" + "," + "\'" + password + "\'" + ")";
+            String payload = "INSERT INTO " + USERS_DATA_TABLE_NAME + " (username, password) VALUES (" + "\'" + userName + "\'" + "," + "\'" + password + "\'" + ")";
             System.out.println("UPDATING: " + payload);
             statement.executeUpdate(payload);
             System.out.println("USER INSERTION: SUCCESS");
@@ -48,7 +48,7 @@ public class DB_Manager implements AutoCloseable {
         Statement statement = null;
         try{
             statement = connection.createStatement();
-            String payload = "SELECT * FROM DATA WHERE username = BINARY " + "\'" + username + '\'';
+            String payload = "SELECT * FROM " + USERS_DATA_TABLE_NAME + " WHERE username = BINARY " + "\'" + username + '\'';
             ResultSet result = statement.executeQuery(payload);
             return result.next();
         }
@@ -65,7 +65,7 @@ public class DB_Manager implements AutoCloseable {
         try
         {
             statement = connection.createStatement();
-            String payload = "SELECT * FROM DATA WHERE username = BINARY " + "\'" + username + '\'';
+            String payload = "SELECT * FROM " + USERS_DATA_TABLE_NAME + " WHERE username = BINARY " + "\'" + username + '\'';
             ResultSet result = statement.executeQuery(payload);       
 
             boolean status = result.next();
@@ -89,6 +89,10 @@ public class DB_Manager implements AutoCloseable {
             System.out.println("Coudn't close the connection: " + e.getMessage());
         }
     }
+
+    private final String DATABASE_NAME = "cryptocharts";
+    private final String USERS_DATA_TABLE_NAME = "users_data";
+    private final String SYMBOLS_DATA_TABLE_NAME = "symbols_data";
 
     private Connection connection;    
     private DB_Manager() {}
