@@ -16,12 +16,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.*;
 
-public class AuthWindow extends Stage
+public class AuthWindow extends Scene
 {
     public AuthWindow()
     {
+        super(new GridPane(), 600,400);
         authHandler = new AuthHandler(loginButton, signUpButton, usernameTextField, passwordTextField, infoMessage);
-        GridPane rootLayout = new GridPane();
+        GridPane rootLayout = (GridPane)this.getRoot();
+        
         rootLayout.setAlignment(Pos.TOP_CENTER);
         rootLayout.setHgap(10);
         rootLayout.setVgap(10);        
@@ -61,10 +63,10 @@ public class AuthWindow extends Stage
         rootLayout.add(infoMessage, 0,14,2,1);
         
 
-        Scene authScene = new Scene(rootLayout, 600, 400);
-        this.setTitle("First JavaFX Application");  
-        this.setScene(authScene);  
-        this.show();  
+        //Scene authScene = new Scene(rootLayout, 600, 400);
+        //this.setTitle("First JavaFX Application");  
+        //this.setScene(authScene);  
+        //this.show();  
     }
 
     private final double maxInputFieldWidth = 150D;

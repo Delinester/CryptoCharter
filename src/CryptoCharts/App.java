@@ -27,8 +27,10 @@ public class App extends Application{
     @Override  
     public void start(Stage primaryStage) throws Exception {  
         // TODO clean the mess
-        AuthWindow auth = new AuthWindow();
+        //AuthWindow auth = new AuthWindow();
+        ScenesManager scenesManager = new ScenesManager(primaryStage);
         DB_Manager db = DB_Manager.getInstance();
+        primaryStage.show();
         if (false) {
         String path = "src\\CryptoCharts\\AXSUSDT_d.csv";
         ReadCSV.download("https://www.cryptodatadownload.com/cdd/Binance_AXSUSDT_d.csv", path);
