@@ -28,6 +28,8 @@ public class App extends Application{
     public void start(Stage primaryStage) throws Exception {  
         // TODO clean the mess
         //AuthWindow auth = new AuthWindow();
+        primaryStage.setResizable(false);
+        primaryStage.setTitle("Crypto Charter");
         ScenesManager scenesManager = ScenesManager.getInstance();
         scenesManager.setMainStage(primaryStage);
         DB_Manager db = DB_Manager.getInstance();
@@ -64,10 +66,7 @@ public class App extends Application{
         StackPane root=new StackPane();  
         root.getChildren().add(linechart); 
         root.getChildren().add(currenciesComboBox);
-        Scene scene=new Scene(root,900,600);      
-        primaryStage.setTitle("First JavaFX Application");  
-        primaryStage.setScene(scene);  
-        primaryStage.show();  
+        Scene scene=new Scene(root,900,600);  
         }
     }  
     public static void main (String[] args)  
