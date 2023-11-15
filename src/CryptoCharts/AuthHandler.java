@@ -41,7 +41,10 @@ public class AuthHandler implements EventHandler<MouseEvent>
             DB_Manager databaseManager = DB_Manager.getInstance();
             System.out.println("ATTEMPTING LOG IN: " + username + " " + password);
             if (databaseManager.isLoginSuccessful(username, password))
+            {
                 infoMessageRef.setText("Successful Log In");
+                ScenesManager.getInstance().openMainWindow();
+            }
                 // TODO Implement action after pressing LOG IN
             else infoMessageRef.setText(INCORRECT_CREDENTIALS_MSG);
         }

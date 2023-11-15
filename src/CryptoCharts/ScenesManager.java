@@ -15,7 +15,8 @@ public class ScenesManager
     public void setMainStage(Stage mainStage) 
     {
         mainStageRef = mainStage;
-        openMainWindow();
+        //openMainWindow();
+        openAuthWindow();
     }
 
     public void openAuthWindow() 
@@ -25,7 +26,7 @@ public class ScenesManager
 
     public void openMainWindow()
     {
-        mainWindow.constructMonthChart("LINAUSDT", "d");
+        mainWindow.constructChart("LINAUSDT", "d");
         mainStageRef.setScene(mainWindow);   
     }
 

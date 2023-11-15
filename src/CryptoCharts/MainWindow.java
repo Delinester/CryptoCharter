@@ -6,23 +6,37 @@ import java.util.Vector;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.*;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.layout.GridPane;
 
 public class MainWindow extends Scene {
     public MainWindow() {
         super(new GridPane(), windowWidth, windowHeight);
         rootLayout = (GridPane) this.getRoot();
-
+        frequencyComboBox = new ComboBox<String>();
+        ObservableList<String> freqList = FXCollections.observableArrayList(frequencies);
+        frequencyComboBox.setItems(freqList);
+        frequencyComboBox.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e)
+            {
+                if (frequencyComboBox.getSelectionModel().getSelectedItem() == "m") constructMonthChart("BTCUSDT", "d");
+                else if (frequencyComboBox.getSelectionModel().getSelectedItem() == "full") constructChart("BTCUSDT", "d");
+            }
+        });
+        rootLayout.add(frequencyComboBox, 11,7,1,1);
     }
 
     public void constructMonthChart(String symbol, String frequency)
     {
+        cleanChart();
         String fileName = "Binance_" + symbol + "_" + frequency + ".csv";
         String path = "src\\CryptoCharts\\Charts\\" + fileName;
         try {
@@ -36,11 +50,14 @@ public class MainWindow extends Scene {
         Vector<String> priceVector = csv.getAllColumnValues("Close");
         Vector<Float> priceVectorFloat = new Vector<Float>(priceVector.size()); 
 
-        for (int i = 0; i < 31; i++)
+        Collections.reverse(datesVector);
+        Collections.reverse(priceVector);
+
+        for (int i = priceVector.size() - 31; i < priceVector.size(); i++)
             priceVectorFloat.add(Float.parseFloat(priceVector.get(i)));
 
         ObservableList<String> dates = FXCollections.observableArrayList();
-        for (int i = 0; i < 31; i++)
+        for (int i = datesVector.size() - 31; i < datesVector.size(); i++)
             dates.add(datesVector.get(i));
 
         float maxPrice = Collections.max(priceVectorFloat);
@@ -59,10 +76,14 @@ public class MainWindow extends Scene {
         linechart.setCreateSymbols(false);
         linechart.getData().add(series);
 
+        linechart.setTitle(symbol);
+        mainChart = linechart;
+
         rootLayout.add(linechart, 0,1,8,8);
     }
 
     public void constructChart(String symbol, String frequency) {
+        cleanChart();
         String fileName = "Binance_" + symbol + "_" + frequency + ".csv";
         String path = "src\\CryptoCharts\\Charts\\" + fileName;
         try {
@@ -81,11 +102,6 @@ public class MainWindow extends Scene {
 
         for (int i = 0; i < priceVector.size(); i++)
             priceVectorFloat.add(Float.parseFloat(priceVector.get(i)));
-
-        ObservableList<String> currencies = FXCollections.observableArrayList();
-        String[] arr = { "BTCUSDT", "AVXUSDT", "XAUUSDT", "SOLUSDT" };
-        currencies.addAll(arr);
-        ComboBox<String> currenciesComboBox = new ComboBox<String>(currencies);
 
         ObservableList<String> dates = FXCollections.observableArrayList();
         dates.addAll(datesVector);
@@ -106,10 +122,22 @@ public class MainWindow extends Scene {
         linechart.setCreateSymbols(false);
         linechart.getData().add(series);
 
+        linechart.setTitle(symbol);
+        mainChart = linechart;
         rootLayout.add(linechart, 0,1,8,8);
+    }
+
+    private void cleanChart()
+    {
+        rootLayout.getChildren().remove(mainChart);
     }
 
     private final static int windowWidth = 900;
     private final static int windowHeight = 600;
     private GridPane rootLayout;
+
+    private LineChart mainChart;
+
+    private ComboBox<String> frequencyComboBox;
+    private final String[] frequencies = {"d", "m", "full"};
 }
