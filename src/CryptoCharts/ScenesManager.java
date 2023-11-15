@@ -25,7 +25,7 @@ public class ScenesManager
 
     public void openMainWindow()
     {
-        mainWindow.constructChart("LINAUSDT", "d");
+        mainWindow.constructMonthChart("LINAUSDT", "d");
         mainStageRef.setScene(mainWindow);   
     }
 
