@@ -29,6 +29,8 @@ public class App extends Application{
         //AuthWindow auth = new AuthWindow();
         primaryStage.setResizable(false);
         primaryStage.setTitle("Crypto Charter");
+        primaryStage.setX(200);
+        primaryStage.setY(200);
 
         ScenesManager scenesManager = ScenesManager.getInstance();
         

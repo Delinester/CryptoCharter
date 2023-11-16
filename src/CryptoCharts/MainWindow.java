@@ -132,8 +132,8 @@ public class MainWindow extends Scene {
         rootLayout.getChildren().remove(mainChart);
     }
 
-    private final static int windowWidth = 900;
-    private final static int windowHeight = 600;
+    private final static int windowWidth = 1200;
+    private final static int windowHeight = 800;
     private GridPane rootLayout;
 
     private LineChart mainChart;
