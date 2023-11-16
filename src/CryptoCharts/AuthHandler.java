@@ -44,8 +44,7 @@ public class AuthHandler implements EventHandler<MouseEvent>
             {
                 infoMessageRef.setText("Successful Log In");
                 ScenesManager.getInstance().openMainWindow();
-            }
-                // TODO Implement action after pressing LOG IN
+            }                
             else infoMessageRef.setText(INCORRECT_CREDENTIALS_MSG);
         }
         else if (source == signUpBtnRef)

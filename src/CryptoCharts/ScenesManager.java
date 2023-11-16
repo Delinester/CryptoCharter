@@ -26,7 +26,7 @@ public class ScenesManager
 
     public void openMainWindow()
     {
-        mainWindow.constructChart("LINAUSDT", "d");
+        mainWindow.constructChart("LINAUSDT", "d", "full");
         mainStageRef.setScene(mainWindow);   
     }
 
