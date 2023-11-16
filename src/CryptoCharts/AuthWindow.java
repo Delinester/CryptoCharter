@@ -1,11 +1,10 @@
 package CryptoCharts;
 
-import javafx.stage.Stage;
-import javafx.geometry.Dimension2D;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -20,53 +19,54 @@ public class AuthWindow extends Scene
 {
     public AuthWindow()
     {
-        super(new GridPane(), windowWidth, windowHeight);
+        super(new BorderPane(), windowWidth, windowHeight);
         authHandler = new AuthHandler(loginButton, signUpButton, usernameTextField, passwordTextField, infoMessage);
-        GridPane rootLayout = (GridPane)this.getRoot();
+        BorderPane rootLayout = (BorderPane)this.getRoot();
         
-        rootLayout.setAlignment(Pos.TOP_CENTER);
-        rootLayout.setHgap(10);
-        rootLayout.setVgap(10);        
-
         applicationHeader.setFont(Font.font(headerFontName, FontWeight.BOLD, headerFontSize));
-        rootLayout.add(applicationHeader, 0,0,2,1);
+
+        // Header 
+        HBox headerBox = new HBox();
+        headerBox.setAlignment(Pos.CENTER);
+        headerBox.getChildren().add(applicationHeader);
+                
+        rootLayout.setTop(headerBox);
+        //
 
         usernameTextField.setMaxWidth(maxInputFieldWidth);
         passwordTextField.setMaxWidth(maxInputFieldWidth);        
 
         infoMessage.setFont(Font.font(infoMessageFontName, FontWeight.NORMAL, headerFontSize / 3));
-        //infoMessage.setTextAlignment(TextAlignment.CENTER);          
         infoMessage.setFill(Paint.valueOf("red")) ;
-        GridPane.setHalignment(infoMessage, HPos.CENTER);
-        
-        GridPane.setHalignment(signUpButton, HPos.CENTER);
-        GridPane.setHalignment(loginButton, HPos.CENTER);
 
         loginButton.setOnMouseClicked(authHandler);
         signUpButton.setOnMouseClicked(authHandler);
 
-        //rootLayout.addRow(10, usernameLabel, usernameTextField);
-        rootLayout.add(usernameLabel, 0,10,1,1);
-        rootLayout.add(usernameTextField, 1,10,1,1);
-        rootLayout.add(passwordLabel, 0,11,1,1);
-        rootLayout.add(passwordTextField, 1,11,1,1);
-        GridPane.setHalignment(usernameLabel, HPos.LEFT);
-        GridPane.setHalignment(usernameTextField, HPos.CENTER);        
-        GridPane.setHalignment(passwordLabel, HPos.LEFT);
-        GridPane.setHalignment(passwordTextField, HPos.CENTER);
-        //rootLayout.addRow(11, passwordLabel, passwordTextField);
-       // rootLayout.addRow(12, loginButton, signUpButton);
-        rootLayout.add(loginButton, 0,12,2,1);
-        GridPane.setHalignment(loginButton, HPos.CENTER);
-        rootLayout.add(signUpButton, 0,13,2,1);
-        GridPane.setHalignment(signUpButton, HPos.CENTER);
-        rootLayout.add(infoMessage, 0,14,2,1);
-        
+        // HBox for the username label and text field
+        HBox usernameBox = new HBox();
+        usernameBox.setAlignment(Pos.CENTER);
+        usernameBox.setSpacing(10);
+        usernameBox.getChildren().addAll(usernameLabel, usernameTextField);
 
-        //Scene authScene = new Scene(rootLayout, 600, 400);
-        //this.setTitle("First JavaFX Application");  
-        //this.setScene(authScene);  
-        //this.show();  
+        // HBox for the password label and text field
+        HBox passwordBox = new HBox();
+        passwordBox.setAlignment(Pos.CENTER);
+        passwordBox.setSpacing(10);
+        passwordBox.getChildren().addAll(passwordLabel, passwordTextField);
+
+        // VBox for the login and sign up buttons
+        HBox buttonBox = new HBox();
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setSpacing(10);
+        buttonBox.getChildren().addAll(loginButton, signUpButton);
+
+        // VBox for all boxes
+        VBox centerBox = new VBox();
+        centerBox.setAlignment(Pos.CENTER);
+        centerBox.setSpacing(10);
+        centerBox.getChildren().addAll(usernameBox, passwordBox, buttonBox, infoMessage);
+
+        rootLayout.setCenter(centerBox);
     }
 
     private final static int windowWidth = 600;
