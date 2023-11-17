@@ -26,6 +26,7 @@ import javafx.scene.layout.HBox;
 
 public class MainWindow extends Scene {
     public MainWindow() {
+        // TODO ADD ANOTHER LAYOUT
         super(new GridPane(), windowWidth, windowHeight);
         rootLayout = (GridPane) this.getRoot();
         TextField frequencyField = new TextField();
@@ -40,7 +41,7 @@ public class MainWindow extends Scene {
         rootLayout.add(frequencyComboBox, 11, 7, 1, 1);
         rootLayout.add(frequencyField, 12, 7, 1, 1);
     }
-
+    //TODO REFACTOR THE METHOD
     public void constructChart(String symbol, String frequency, String windowString) {
         cleanChart();
         String fileName = "Binance_" + symbol + "_" + frequency + ".csv";
