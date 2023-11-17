@@ -116,48 +116,21 @@ public class MainWindow extends Scene {
         linechart.setCursor(Cursor.CROSSHAIR);
         mainChart = linechart;
 
-        ScrollPane scrollPane = new ScrollPane(linechart);
-        final int width = viewPortWidth + window * tickWidth;
-        scrollPane.setPrefViewportHeight(viewPortHeight);
-        scrollPane.setPrefViewportWidth(viewPortWidth);
-        linechart.setMinSize(viewPortWidth, viewPortHeight);
-
-        scrollPane.setOnScroll(event -> {
-            double zoomValue = event.getDeltaY() / width * zoomingSpeed;
-            if (currentZoomFactor < 1 && currentZoomFactor > 0
-                    || currentZoomFactor >= 1 && zoomValue < 0
-                    || currentZoomFactor <= 0 && zoomValue > 0)
-                currentZoomFactor += zoomValue;
-            scrollPane.setHvalue(1 - currentZoomFactor);    
-            double newWidth = width * currentZoomFactor;
-            linechart.setMinWidth(newWidth < width ? newWidth : width);
-            
-            // TODO Make the price axis fixed!!!
-            //double scrollValue = scrollPane.getHvalue();
-            //double xPos = -scrollValue * newWidth + viewPortWidth;            
-            //System.out.println("Scroll: " + scrollValue + " XPos: " + xPos);
-            //yAxis.setTranslateX(xPos);
-        });
-        rootLayout.add(scrollPane, 0, 1, 8, 8);
+        ScrollableChart scrollableChart = new ScrollableChart(linechart, window);
+        
+        rootLayout.add(scrollableChart, 0, 1, 8, 8);
 
     }
 
     private void cleanChart() {
         rootLayout.getChildren().remove(mainChart);
-        currentZoomFactor = 1 ;
     }
 
     private final static int windowWidth = 1200;
     private final static int windowHeight = 800;
-    private final int tickWidth = 14;
-    
-    final int viewPortWidth = 600;
-    final int viewPortHeight = 400;
     private GridPane rootLayout;
 
     private LineChart mainChart;
-    private double currentZoomFactor;
-    private double zoomingSpeed = 3;
 
     private ComboBox<String> frequencyComboBox;
     private final String[] frequencies = { "d", "m", "full" };
