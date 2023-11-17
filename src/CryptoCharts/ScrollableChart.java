@@ -2,7 +2,6 @@ package CryptoCharts;
 
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.GridPane;
 
 public class ScrollableChart extends ScrollPane
 {
@@ -38,6 +37,6 @@ public class ScrollableChart extends ScrollPane
     final int viewPortWidth = 600;
     final int viewPortHeight = 400;
 
-    private double currentZoomFactor = 1;
+    private double currentZoomFactor = 0.1;
     private double zoomingSpeed = 3;
 }
