@@ -2,6 +2,7 @@ package CryptoCharts;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Stack;
 import java.util.Vector;
 
 import javafx.collections.FXCollections;
@@ -20,9 +21,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 public class MainWindow extends Scene {
     public MainWindow() {
@@ -54,8 +61,10 @@ public class MainWindow extends Scene {
         }
         ReadCSV csv = new ReadCSV("src\\CryptoCharts\\Charts\\" + fileName, ",");
         Vector<String> datesVector = csv.getAllColumnValues("Date");
-        Vector<String> priceVector = csv.getAllColumnValues("Close");
-        Vector<Float> priceVectorFloat = new Vector<Float>(priceVector.size());
+        Vector<Float> closePriceVector = csv.getColumnAsFloat("Close");
+        Vector<Float> openPriceVector = csv.getColumnAsFloat("Open");
+        Vector<Float> highPriceVector = csv.getColumnAsFloat("High");
+        Vector<Float> lowPriceVector = csv.getColumnAsFloat("Low");
 
         int window = 0;
         int numberOfEntries = datesVector.size();
@@ -65,38 +74,47 @@ public class MainWindow extends Scene {
             window = Integer.parseInt(windowString);
 
         Collections.reverse(datesVector);
-        Collections.reverse(priceVector);
+        Collections.reverse(closePriceVector);
 
+        ObservableList<Float> closePrices = FXCollections.observableArrayList();
         for (int i = numberOfEntries - window; i < numberOfEntries; i++)
-            priceVectorFloat.add(Float.parseFloat(priceVector.get(i)));
+             closePrices.add(closePriceVector.get(i));
 
         ObservableList<String> dates = FXCollections.observableArrayList();
         for (int i = numberOfEntries - window; i < numberOfEntries; i++)
-            dates.add(datesVector.get(i));
+             dates.add(datesVector.get(i));
 
-        float maxPrice = Collections.max(priceVectorFloat);
-        float minPrice = Collections.min(priceVectorFloat);
+        float maxPrice = Collections.max(closePriceVector);
+        float minPrice = Collections.min(closePriceVector);
 
         NumberAxis yAxis = new NumberAxis("price",
-                minPrice - minPrice / 100, maxPrice + maxPrice / 100, Collections.max(priceVectorFloat) / 100);
+                minPrice - minPrice / 100, maxPrice + maxPrice / 100, Collections.max(closePriceVector) / 100);
         yAxis.setSide(Side.RIGHT);
         CategoryAxis xAxis = new CategoryAxis(dates);
 
         LineChart<String, Float> linechart = new LineChart(xAxis, yAxis);
         XYChart.Series<String, Float> series = new XYChart.Series<String, Float>();
         for (int i = 0; i < window; i++)
-            series.getData().add(new XYChart.Data<String, Float>(dates.get(i), priceVectorFloat.get(i)));
+        {
+            float close = closePriceVector.get(i);
+            float open = openPriceVector.get(i);
+            float high = highPriceVector.get(i);
+            float low = lowPriceVector.get(i);
+            String date = dates.get(i);
+            XYChart.Data<String, Float> data = new XYChart.Data<String, Float>(date, close);
+            data.setNode(new ChartHoverInfo(date, close, open, high, low));
+            series.getData().add(data);
+        }
 
         xAxis.setTickLabelRotation(90);
         linechart.setLegendVisible(false);
         linechart.setCreateSymbols(false);
         linechart.getData().add(series);
-
-        linechart.setTitle(symbol);
+        linechart.setCursor(Cursor.CROSSHAIR);
         mainChart = linechart;
 
         ScrollPane scrollPane = new ScrollPane(linechart);
-        final int width = 600 + window * 14;
+        final int width = viewPortWidth + window * tickWidth;
         scrollPane.setPrefViewportHeight(viewPortHeight);
         scrollPane.setPrefViewportWidth(viewPortWidth);
         linechart.setMinSize(viewPortWidth, viewPortHeight);
@@ -123,20 +141,18 @@ public class MainWindow extends Scene {
 
     private void cleanChart() {
         rootLayout.getChildren().remove(mainChart);
-        rootLayout.getChildren().remove(emptyLabel);
         currentZoomFactor = 1 ;
     }
 
     private final static int windowWidth = 1200;
     private final static int windowHeight = 800;
-
+    private final int tickWidth = 14;
     
     final int viewPortWidth = 600;
     final int viewPortHeight = 400;
     private GridPane rootLayout;
 
     private LineChart mainChart;
-    private Label emptyLabel;
     private double currentZoomFactor;
     private double zoomingSpeed = 3;
 

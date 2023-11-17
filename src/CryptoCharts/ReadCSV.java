@@ -52,6 +52,15 @@ public class ReadCSV {
         return table.get(column);
     }
 
+    public Vector<Float> getColumnAsFloat(String column)
+    {
+        Vector<String> stringVals = getAllColumnValues(column);
+        int size = stringVals.size();
+        Vector<Float> floatVals = new Vector<Float>(size);
+        for (int i = 0; i < size; i++) floatVals.add(Float.parseFloat(stringVals.get(i)));
+        return floatVals;
+    }
+
     public boolean hasNext() {
         return scanner.hasNext();
     }
