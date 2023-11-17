@@ -75,6 +75,9 @@ public class MainWindow extends Scene {
 
         Collections.reverse(datesVector);
         Collections.reverse(closePriceVector);
+        //Collections.reverse(openPriceVector);
+        //Collections.reverse(highPriceVector);
+        //Collections.reverse(lowPriceVector);
 
         ObservableList<Float> closePrices = FXCollections.observableArrayList();
         for (int i = numberOfEntries - window; i < numberOfEntries; i++)
@@ -96,10 +99,10 @@ public class MainWindow extends Scene {
         XYChart.Series<String, Float> series = new XYChart.Series<String, Float>();
         for (int i = 0; i < window; i++)
         {
-            float close = closePriceVector.get(i);
-            float open = openPriceVector.get(i);
-            float high = highPriceVector.get(i);
-            float low = lowPriceVector.get(i);
+            float close = closePrices.get(i);
+            float open = openPriceVector.get(window - 1 - i);
+            float high = highPriceVector.get(window - 1 - i);
+            float low = lowPriceVector.get(window - 1 - i);
             String date = dates.get(i);
             XYChart.Data<String, Float> data = new XYChart.Data<String, Float>(date, close);
             data.setNode(new ChartHoverInfo(date, close, open, high, low));
