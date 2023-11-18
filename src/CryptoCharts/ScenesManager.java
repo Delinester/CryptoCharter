@@ -28,6 +28,8 @@ public class ScenesManager
     {
         mainWindow.constructChart("LINAUSDT", "d", "full");
         mainStageRef.setScene(mainWindow);   
+        mainStageRef.setX(50);
+        mainStageRef.setY(50);
     }
 
 

@@ -3,14 +3,8 @@ package CryptoCharts;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.*;
 import javafx.scene.text.*;
-
-import javax.swing.GroupLayout.Alignment;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.*;
 import javafx.geometry.Pos;
 
@@ -75,9 +69,7 @@ public class ChartHoverInfo extends StackPane
     private Text dateText, closeText, openText, highText, lowText;
 
     private Rectangle backgroundRect;
-    private int rectWidth = 70;
     private int rectWidthPerChar = 10;
-    private int rectHeight = 25;
     private String rectColor = "grey";
 
     private int hoverableAreaWidth = 5;

@@ -1,26 +1,7 @@
 package CryptoCharts;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Vector;
-
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;  
-import javafx.event.EventHandler;
-import javafx.print.Collation;
-import javafx.scene.Scene;  
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;  
-import javafx.scene.layout.StackPane;  
-
-import javafx.scene.chart.LineChart;  
-import javafx.scene.chart.NumberAxis;  
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.XYChart;  
 
 public class App extends Application{  
   
