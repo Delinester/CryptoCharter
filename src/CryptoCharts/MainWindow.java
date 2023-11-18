@@ -87,8 +87,8 @@ public class MainWindow extends Scene {
         for (int i = numberOfEntries - window; i < numberOfEntries; i++)
              dates.add(datesVector.get(i));
 
-        float maxPrice = Collections.max(closePriceVector);
-        float minPrice = Collections.min(closePriceVector);
+        float maxPrice = Collections.max(closePrices);
+        float minPrice = Collections.min(closePrices);
 
         NumberAxis yAxis = new NumberAxis("price",
                 minPrice - minPrice / 100, maxPrice + maxPrice / 100, Collections.max(closePriceVector) / 100);
