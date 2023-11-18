@@ -14,6 +14,11 @@ public class SymbolsMiniPanel extends StackPane
         symbolText = new Text(symbol);
         hbox.getChildren().add(symbolText);
         getChildren().add(hbox);
+    }    
+
+    public String getSymbol()
+    {
+        return symbolText.getText();
     }
 
     private Text symbolText;

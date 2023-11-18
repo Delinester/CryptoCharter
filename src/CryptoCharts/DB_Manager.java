@@ -1,6 +1,7 @@
 package CryptoCharts;
 
 import java.sql.*;
+import java.util.Collections;
 import java.util.Vector;
 
 import javax.swing.plaf.nimbus.State;
@@ -103,7 +104,7 @@ public class DB_Manager implements AutoCloseable {
         {
             System.out.println("SYMBOLS FETCHING ERROR: " + e.getMessage());
         }
-        
+        Collections.sort(symbols);
         return symbols;
     }
 

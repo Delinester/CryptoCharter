@@ -36,12 +36,13 @@ public class MainWindow extends Scene {
         TextField frequencyField = new TextField();
         frequencyComboBox = new ComboBox<String>();
         ObservableList<String> freqList = FXCollections.observableArrayList(frequencies);
-        frequencyComboBox.setItems(freqList);
-        frequencyComboBox.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                constructChart("BTCUSDT", "d", frequencyField.getText());
-            }
-        });
+        frequencyComboBox.setItems(freqList);     
+
+        ChartDrawerEventHandler chartDrawerEventHandler = new ChartDrawerEventHandler(this);
+
+        frequencyComboBox.setOnAction(chartDrawerEventHandler);
+        chartDrawerEventHandler.setFrequencyBox(frequencyComboBox);
+        chartDrawerEventHandler.setWindowField(frequencyField);
 
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.CENTER);
@@ -53,6 +54,8 @@ public class MainWindow extends Scene {
         symbolsListView = new SymbolsListView(DB_Manager.getInstance().getAvailableSymbols());
         symbolsListView.setMaxHeight(windowHeight / 2);
         rightVbox.getChildren().add(symbolsListView);
+        chartDrawerEventHandler.setSymbolsList(symbolsListView);
+        symbolsListView.setOnMouseClicked(chartDrawerEventHandler);
         rootLayout.setRight(rightVbox);
 
     }
@@ -145,5 +148,5 @@ public class MainWindow extends Scene {
     private SymbolsListView symbolsListView;
 
     private ComboBox<String> frequencyComboBox;
-    private final String[] frequencies = { "d", "m", "full" };
+    private final String[] frequencies = { "d", "h" };
 }
