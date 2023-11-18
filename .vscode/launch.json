@@ -6,12 +6,18 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BinanceSymbolsUploader",
+            "request": "launch",
+            "mainClass": "CryptoCharts.BinanceSymbolsUploader",
+            "projectName": "CryptoCharts_1647047"
+        },
+        {
+            "type": "java",
             "name": "App",
             "request": "launch",
             "mainClass": "CryptoCharts.App",
             "projectName": "CryptoCharts_1647047",
             "vmArgs": "-p ./lib/javafx-sdk-21.0.1/lib --add-modules javafx.controls,javafx.base,javafx.fxml,javafx.graphics,javafx.media,javafx.web --add-opens=javafx.graphics/javafx.scene=ALL-UNNAMED --add-exports javafx.base/com.sun.javafx.event=ALL-UNNAMED"
-            
         }
     ]
 }

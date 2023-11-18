@@ -60,7 +60,8 @@ public class ScrollableChart extends ScrollPane
         viewPortHeight = height;
         setPrefViewportWidth(width);
         setPrefHeight(height);
-        chart.setMaxSize(width, height);
+        chart.setMaxSize(width, height);        
+        setMaxSize(viewPortWidth, viewPortHeight);
     }
 
     

@@ -1,6 +1,9 @@
 package CryptoCharts;
 
 import java.sql.*;
+import java.util.Vector;
+
+import javax.swing.plaf.nimbus.State;
 
 public class DB_Manager implements AutoCloseable {
     public static DB_Manager manager;
@@ -80,6 +83,51 @@ public class DB_Manager implements AutoCloseable {
         }
     }
 
+    public Vector<String> getAvailableSymbols()
+    {
+        Statement statement = null;
+        Vector<String> symbols = new Vector<>();
+        try
+        {
+            statement = connection.createStatement();
+            String payload = "SELECT * FROM " + SYMBOLS_DATA_TABLE_NAME;
+            ResultSet result = statement.executeQuery(payload);
+
+            while (result.next())
+            {
+                String resultSymbols = result.getString(SYMBOLS_COLUMN);
+                symbols.add(resultSymbols);
+            }
+        }
+        catch (SQLException e) 
+        {
+            System.out.println("SYMBOLS FETCHING ERROR: " + e.getMessage());
+        }
+        
+        return symbols;
+    }
+
+    public void uploadSymbolsToTable(Vector<String> symbols)
+    {
+        Statement statement = null;
+        Vector<String> existingSymbols = getAvailableSymbols();
+        
+        for (String symbol : symbols)
+        {
+            for (String existingSymbol : existingSymbols) { if(existingSymbol == symbol) continue;}
+            try
+            {
+                statement = connection.createStatement();
+                String payload = "INSERT " + SYMBOLS_DATA_TABLE_NAME + " (" + SYMBOLS_COLUMN + ") VALUES ('" + symbol + "')";
+                statement.executeUpdate(payload);
+            }
+            catch (SQLException e) 
+            {   
+                System.out.println("SYMBOLS ADDING ERROR: " + e.getMessage());
+            }
+        }
+    }
+
     @Override
     public void close() {
         try {
@@ -93,6 +141,8 @@ public class DB_Manager implements AutoCloseable {
     private final String DATABASE_NAME = "cryptocharts";
     private final String USERS_DATA_TABLE_NAME = "users_data";
     private final String SYMBOLS_DATA_TABLE_NAME = "symbols_data";
+
+    private final String SYMBOLS_COLUMN = "symbols_pair";
 
     private Connection connection;    
     private DB_Manager() {}

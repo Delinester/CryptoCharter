@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.util.Vector;
 
 public class ReadCSV {
-    public ReadCSV(String filePath, String delim) {
+    public ReadCSV(String filePath, String delim, int skipRow) {
         try {
             scanner = new Scanner(new File(filePath));
             table = new HashMap<String, Vector<String>>();
@@ -21,9 +21,12 @@ public class ReadCSV {
             while (scanner.hasNext()) {
                 String retrievedStr = scanner.nextLine();
                 String[] separatedStr = retrievedStr.split(delim);
-                if (separatedStr.length <= 1)
+                if (counter == skipRow)
+                {
+                    counter++;
                     continue;
-                if (counter == 0) {
+                }
+                if (skipRow == 0 ? counter == 1 : counter == 0) {
                     columns = separatedStr;
                     for (String colName : separatedStr)
                         table.put(colName, new Vector<String>());
@@ -32,6 +35,7 @@ public class ReadCSV {
                 }
                 for (int colIdx = 0; colIdx < columns.length; colIdx++) {
                     table.get(columns[colIdx]).add(separatedStr[colIdx]);
+                    counter++;
                 }
             }
 

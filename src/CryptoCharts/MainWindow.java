@@ -3,14 +3,12 @@ package CryptoCharts;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Stack;
 import java.util.Vector;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
@@ -20,28 +18,20 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class MainWindow extends Scene {
     public MainWindow() {
         // TODO ADD ANOTHER LAYOUT
-        super(new FlowPane(), windowWidth, windowHeight);
-        rootLayout = (FlowPane) this.getRoot();
-        rootLayout.setVgap(40);
+        super(new BorderPane(), windowWidth, windowHeight);
+        rootLayout = (BorderPane) this.getRoot();
 
         TextField frequencyField = new TextField();
         frequencyComboBox = new ComboBox<String>();
@@ -50,18 +40,21 @@ public class MainWindow extends Scene {
         frequencyComboBox.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 constructChart("BTCUSDT", "d", frequencyField.getText());
-                constructChart("BTCUSDT", "d", frequencyField.getText());
-                constructChart("BTCUSDT", "d", frequencyField.getText());
             }
         });
 
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.CENTER);
         hbox.setSpacing(10);
-        hbox.getChildren().addAll(frequencyComboBox, frequencyField);
+        hbox.getChildren().addAll(frequencyComboBox, frequencyField);        
+        rootLayout.setTop(hbox);
 
-        rootLayout.setOrientation(Orientation.VERTICAL);
-        rootLayout.getChildren().addAll(hbox);
+        VBox rightVbox = new VBox();
+        symbolsListView = new SymbolsListView(DB_Manager.getInstance().getAvailableSymbols());
+        symbolsListView.setMaxHeight(windowHeight / 2);
+        rightVbox.getChildren().add(symbolsListView);
+        rootLayout.setRight(rightVbox);
+
     }
     //TODO REFACTOR THE METHOD
     public void constructChart(String symbol, String frequency, String windowString) {
@@ -74,7 +67,7 @@ public class MainWindow extends Scene {
             System.out.println("FILE WRITING ERROR: " + e.getMessage());
             return;
         }
-        ReadCSV csv = new ReadCSV("src\\CryptoCharts\\Charts\\" + fileName, ",");
+        ReadCSV csv = new ReadCSV("src\\CryptoCharts\\Charts\\" + fileName, ",", 0);
         Vector<String> datesVector = csv.getAllColumnValues("Date");
         Vector<Float> closePriceVector = csv.getColumnAsFloat("Close");
         Vector<Float> openPriceVector = csv.getColumnAsFloat("Open");
@@ -135,7 +128,7 @@ public class MainWindow extends Scene {
 
         charts.add(scrollableChart);
         
-        rootLayout.getChildren().add(scrollableChart);
+        rootLayout.setCenter(scrollableChart);;
 
     }
 
@@ -145,9 +138,11 @@ public class MainWindow extends Scene {
 
     private final static int windowWidth = 1200;
     private final static int windowHeight = 800;
-    private FlowPane rootLayout;
+    private BorderPane rootLayout;
 
     private ArrayList<ScrollableChart> charts = new ArrayList<ScrollableChart>();
+
+    private SymbolsListView symbolsListView;
 
     private ComboBox<String> frequencyComboBox;
     private final String[] frequencies = { "d", "m", "full" };
