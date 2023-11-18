@@ -1,6 +1,7 @@
 package CryptoCharts;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
 import java.util.Vector;
@@ -10,6 +11,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.*;
 import javafx.scene.chart.CategoryAxis;
@@ -23,6 +26,8 @@ import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -34,8 +39,10 @@ import javafx.scene.text.Text;
 public class MainWindow extends Scene {
     public MainWindow() {
         // TODO ADD ANOTHER LAYOUT
-        super(new GridPane(), windowWidth, windowHeight);
-        rootLayout = (GridPane) this.getRoot();
+        super(new FlowPane(), windowWidth, windowHeight);
+        rootLayout = (FlowPane) this.getRoot();
+        rootLayout.setVgap(40);
+
         TextField frequencyField = new TextField();
         frequencyComboBox = new ComboBox<String>();
         ObservableList<String> freqList = FXCollections.observableArrayList(frequencies);
@@ -43,14 +50,22 @@ public class MainWindow extends Scene {
         frequencyComboBox.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 constructChart("BTCUSDT", "d", frequencyField.getText());
+                constructChart("BTCUSDT", "d", frequencyField.getText());
+                constructChart("BTCUSDT", "d", frequencyField.getText());
             }
         });
-        rootLayout.add(frequencyComboBox, 11, 7, 1, 1);
-        rootLayout.add(frequencyField, 12, 7, 1, 1);
+
+        HBox hbox = new HBox();
+        hbox.setAlignment(Pos.CENTER);
+        hbox.setSpacing(10);
+        hbox.getChildren().addAll(frequencyComboBox, frequencyField);
+
+        rootLayout.setOrientation(Orientation.VERTICAL);
+        rootLayout.getChildren().addAll(hbox);
     }
     //TODO REFACTOR THE METHOD
     public void constructChart(String symbol, String frequency, String windowString) {
-        cleanChart();
+        //cleanChart();
         String fileName = "Binance_" + symbol + "_" + frequency + ".csv";
         String path = "src\\CryptoCharts\\Charts\\" + fileName;
         try {
@@ -114,23 +129,25 @@ public class MainWindow extends Scene {
         linechart.setCreateSymbols(false);
         linechart.getData().add(series);
         linechart.setCursor(Cursor.CROSSHAIR);
-        mainChart = linechart;
 
-        ScrollableChart scrollableChart = new ScrollableChart(linechart, window);
+        ScrollableChart scrollableChart = new ScrollableChart(linechart, window);      
+        scrollableChart.setSize(600,400);
+
+        charts.add(scrollableChart);
         
-        rootLayout.add(scrollableChart, 0, 1, 8, 8);
+        rootLayout.getChildren().add(scrollableChart);
 
     }
 
     private void cleanChart() {
-        rootLayout.getChildren().remove(mainChart);
+        rootLayout.getChildren().removeAll(charts);
     }
 
     private final static int windowWidth = 1200;
     private final static int windowHeight = 800;
-    private GridPane rootLayout;
+    private FlowPane rootLayout;
 
-    private LineChart mainChart;
+    private ArrayList<ScrollableChart> charts = new ArrayList<ScrollableChart>();
 
     private ComboBox<String> frequencyComboBox;
     private final String[] frequencies = { "d", "m", "full" };
