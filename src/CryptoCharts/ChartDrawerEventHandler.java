@@ -2,7 +2,9 @@ package CryptoCharts;
 
 import javafx.event.*;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 public class ChartDrawerEventHandler implements EventHandler
 {
@@ -15,7 +17,7 @@ public class ChartDrawerEventHandler implements EventHandler
         windowFieldRef = windowField;
     }
 
-    public void setSymbolsList(SymbolsListView symbolsList) {
+    public void setSymbolsList(ListView<Pane> symbolsList) {
         symbolsListRef = symbolsList;
     }
 
@@ -36,6 +38,6 @@ public class ChartDrawerEventHandler implements EventHandler
 
     private TextField windowFieldRef;
     private ComboBox<String> frequencyComboBoxRef;
-    private SymbolsListView symbolsListRef;
+    private ListView<Pane> symbolsListRef;
     private MainWindow mainWindowRef;
 }

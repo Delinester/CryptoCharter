@@ -10,9 +10,19 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.event.*;
 
-public class SymbolsListView extends ListView<Pane>
+public class MyListView extends ListView<Pane>
 {
-    public SymbolsListView(Vector<String> symbols)
+    public MyListView(Vector<String> symbols)
+    {
+        ObservableList<Pane> panelsList  = FXCollections.observableArrayList();
+        for (String symbol : symbols)
+        {
+            panelsList.add(new MiniPanel(symbol));            
+        }
+        setItems(panelsList);
+    }
+
+    public MyListView(String[] symbols)
     {
         ObservableList<Pane> panelsList  = FXCollections.observableArrayList();
         for (String symbol : symbols)

@@ -55,11 +55,17 @@ public class MainWindow extends Scene {
         rootLayout.setTop(hbox);
 
         rightVbox = new VBox();
-        symbolsListView = new SymbolsListView(DB_Manager.getInstance().getAvailableSymbols());
+        symbolsListView = new MyListView(DB_Manager.getInstance().getAvailableSymbols());
         symbolsListView.setMaxHeight(windowHeight / 2);
         rightVbox.getChildren().add(symbolsListView);
         chartDrawerEventHandler.setSymbolsList(symbolsListView);
         symbolsListView.setOnMouseClicked(chartDrawerEventHandler);
+
+        indicatorsListView = new MyListView(indicators);
+        indicatorsListView.setMaxHeight(windowHeight / 2);
+        indicatorsListView.setOnMouseClicked(chartDrawerEventHandler);
+        rightVbox.getChildren().add(indicatorsListView);
+        
         rootLayout.setRight(rightVbox);
 
         leftVbox = new VBox();
@@ -113,10 +119,9 @@ public class MainWindow extends Scene {
 
         NumberAxis yAxis = new NumberAxis("price",
                 minPrice - minPrice / 100, maxPrice + maxPrice / 100, Collections.max(closePriceVector) / 100);
-        yAxis.setSide(Side.RIGHT);
+        
         CategoryAxis xAxis = new CategoryAxis(dates);
 
-        LineChart<String, Float> linechart = new LineChart(xAxis, yAxis);
         XYChart.Series<String, Float> series = new XYChart.Series<String, Float>();
         for (int i = 0; i < window; i++)
         {
@@ -131,15 +136,8 @@ public class MainWindow extends Scene {
             series.getData().add(data);
         }
 
-        xAxis.setTickLabelRotation(90);
-        linechart.setLegendVisible(false);
-        linechart.setCreateSymbols(false);
-        linechart.getData().add(series);
-        linechart.setCursor(Cursor.CROSSHAIR);
 
-        ScrollableChart scrollableChart = new ScrollableChart(linechart, window);      
-        scrollableChart.setSize(600,400);
-
+        ScrollableChart scrollableChart = ChartBuilder.makeChart(xAxis, yAxis, series, window, windowWidth/2, windowHeight/2);
         charts.add(scrollableChart);
         centerVbox.getChildren().add(scrollableChart);
 
@@ -164,7 +162,9 @@ public class MainWindow extends Scene {
 
     private ArrayList<ScrollableChart> charts = new ArrayList<ScrollableChart>();
 
-    private SymbolsListView symbolsListView;
+    private MyListView symbolsListView;
+    private MyListView indicatorsListView;
+    String[] indicators = {"RSI", "MACD", "SMA"};
 
     private ComboBox<String> frequencyComboBox;
     private final String[] frequencies = { "d", "h" };

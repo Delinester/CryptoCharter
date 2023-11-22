@@ -1,5 +1,6 @@
 package CryptoCharts;
 
+import javafx.geometry.Side;
 import javafx.scene.Cursor;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.LineChart;
@@ -7,11 +8,10 @@ import javafx.scene.chart.XYChart;
 
 public class ChartBuilder 
 {
-    public static ScrollableChart makeChart(Axis x, Axis y, XYChart.Data series, int window)
+    public static ScrollableChart makeChart(Axis x, Axis y, XYChart.Series series, int window, int width, int height)
     {
         LineChart linechart = new LineChart<>(x, y);
-        linechart.getData().add(series);
-
+        y.setSide(Side.RIGHT);
         x.setTickLabelRotation(90);
         linechart.setLegendVisible(false);
         linechart.setCreateSymbols(false);
@@ -19,6 +19,7 @@ public class ChartBuilder
         linechart.setCursor(Cursor.CROSSHAIR);
 
         ScrollableChart scrollableChart = new ScrollableChart(linechart, window);      
-        scrollableChart.setSize(600,400);
+        scrollableChart.setSize(width,height);
+        return scrollableChart;
     }
 }
