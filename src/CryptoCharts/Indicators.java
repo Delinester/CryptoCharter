@@ -48,7 +48,6 @@ public class Indicators
         NumberAxis yAxis = new NumberAxis("RSI", 0, 100, 20);
 
         XYChart.Series<String, Float> series = new XYChart.Series<String, Float>();
-        //for (int i = indicatorWindow + 1; i < closePrices.size(); i++)
         for (int i = indicatorWindow + 1; i < closePrices.size(); i++)
         {
             if (i < closePrices.size() - window) continue;
@@ -58,8 +57,7 @@ public class Indicators
             data.setNode(new ChartHoverInfo("Date: ", date, "RSI: ", Float.toString(value)));
             series.getData().add(data);
         }
-
-
+        
         return new ConfigurableChart("RSI", xAxis, yAxis, series, window, 600, 200);
     }
 }

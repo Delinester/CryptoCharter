@@ -25,6 +25,11 @@ public class ChartDrawerEventHandler implements EventHandler
         frequencyComboBoxRef = frequencyBox;
     }
 
+    public void setIndicatorsList(ListView<Pane> indicatorsList)
+    {
+        indicatorsListRef = indicatorsList;
+    }
+
     public void handle(Event event)
     {
         if (event.getSource() == symbolsListRef || event.getSource() == frequencyComboBoxRef)
@@ -34,10 +39,17 @@ public class ChartDrawerEventHandler implements EventHandler
                 frequencyComboBoxRef.getSelectionModel().getSelectedItem(),
                 windowFieldRef.getText());
         }
+
+        else if (event.getSource() == indicatorsListRef)
+        {
+            MiniPanel selectedItem = (MiniPanel) indicatorsListRef.getSelectionModel().getSelectedItem();
+            mainWindowRef.constructIndicatorChart(selectedItem.getText());
+        }
     }
 
     private TextField windowFieldRef;
     private ComboBox<String> frequencyComboBoxRef;
     private ListView<Pane> symbolsListRef;
+    private ListView<Pane> indicatorsListRef;
     private MainWindow mainWindowRef;
 }

@@ -61,6 +61,7 @@ public class MainWindow extends Scene {
         symbolsListView.setOnMouseClicked(chartDrawerEventHandler);
 
         indicatorsListView = new MyListView(indicators);
+        chartDrawerEventHandler.setIndicatorsList(indicatorsListView);
         indicatorsListView.setMaxHeight(windowHeight / 2);
         indicatorsListView.setOnMouseClicked(chartDrawerEventHandler);
         rightVbox.getChildren().add(indicatorsListView);
@@ -99,9 +100,6 @@ public class MainWindow extends Scene {
 
         Collections.reverse(datesVector);
         Collections.reverse(closePriceVector);
-        //Collections.reverse(openPriceVector);
-        //Collections.reverse(highPriceVector);
-        //Collections.reverse(lowPriceVector);
 
         ObservableList<Float> closePrices = FXCollections.observableArrayList();
         for (int i = numberOfEntries - window; i < numberOfEntries; i++)
@@ -138,15 +136,18 @@ public class MainWindow extends Scene {
             window, windowWidth/2, windowHeight/2);
         charts.add(configurableChart);
         centerVbox.getChildren().add(configurableChart);
-
-        constructIndicatorChart();
     }
 
-    public void constructIndicatorChart()
+    public void constructIndicatorChart(String indicator)
     {
-        ConfigurableChart rsi = Indicators.RSI(closePriceVector, datesVector, window);
-        charts.add(rsi);
-        centerVbox.getChildren().addAll(rsi);
+        switch (indicator)
+        {
+            case "RSI": 
+                ConfigurableChart rsi = Indicators.RSI(closePriceVector, datesVector, window);
+                charts.add(rsi);
+                centerVbox.getChildren().addAll(rsi);
+                break;
+        }
     }
 
     private void cleanMainChart() {
