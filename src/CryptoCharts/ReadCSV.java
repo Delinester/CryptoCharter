@@ -44,6 +44,7 @@ public class ReadCSV {
         }
     }
 
+    //TODO Add checking the last time of document modification- if it was yesterday, than delete it and re-download
     public static long download(String url, String fileName) throws IOException {
         File file = new File(fileName);
         if (file.exists() || file.isDirectory()) return 0;

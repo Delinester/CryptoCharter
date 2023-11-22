@@ -3,17 +3,20 @@ package CryptoCharts;
 import javafx.geometry.Point2D;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Paint;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 
 public class ScrollableChart extends ScrollPane
 {
     public ScrollableChart(LineChart linechart, int window)
     {
+        width = viewPortWidth + window * tickWidth;
         setHbarPolicy(ScrollBarPolicy.NEVER);
         setVbarPolicy(ScrollBarPolicy.NEVER);
         chart = linechart;
         setContent(linechart);
-        final double width = viewPortWidth + window * tickWidth;
         setPrefViewportHeight(viewPortHeight);
         setPrefViewportWidth(viewPortWidth);
         linechart.setMaxSize(viewPortWidth, viewPortHeight);
@@ -28,7 +31,7 @@ public class ScrollableChart extends ScrollPane
                 currentZoomFactor += zoomValue;
             setHvalue(1 - currentZoomFactor);    
             double newWidth = width * currentZoomFactor;
-            linechart.setMinWidth(newWidth < width ? newWidth : width);        
+            linechart.setMinWidth(newWidth < width ? newWidth : width);
         
         chart.setOnMousePressed(pressEvent ->
         {
@@ -61,10 +64,34 @@ public class ScrollableChart extends ScrollPane
         setPrefViewportWidth(width);
         setPrefViewportHeight(height);
         chart.setMaxSize(width, height);      
-        chart.setPrefSize(width, height);  
+        chart.setPrefSize(width, height);        
         setMaxSize(viewPortWidth, viewPortHeight);
     }
+    // TODO fix - doesn't work properly
+    public void resetZoom()
+    {
+        setHvalue(0);
+        currentZoomFactor = 0.1;
+        chart.setMinWidth(width * currentZoomFactor);
+    }
 
+    public void setStrokeColor(String color)
+    {        
+        for (int i = 0; i < chart.getData().size(); i++)
+        {
+            XYChart.Series data = (XYChart.Series) chart.getData().get(i);
+            data.getNode().setStyle("-fx-stroke:\"" + color + "\";");
+        }
+    }
+
+    public void setBackgroundColor(String color)
+    {
+        chart.lookup(".chart-plot-background").setStyle("-fx-background-color: \"" + color + "\";");
+        //chart.lookup(".chart-alternative-row-fill").setStyle("-fx-fill: \"" + color + "\";");        
+        //chart.lookup(".chart-alternative-column-fill").setStyle("-fx-fill: \"" + color + "\";");
+        
+        //chart.lookup(".chart-content").setStyle("-fx-background-color: \"" + color + "\";");
+    }
     
     private final int tickWidth = 14;
     
@@ -75,6 +102,7 @@ public class ScrollableChart extends ScrollPane
 
     private double currentZoomFactor = 0.1;
     private double zoomingSpeed = 3;
+    double width;
 
     private double dragStrength = 0.0003;
 

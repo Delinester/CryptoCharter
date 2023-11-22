@@ -25,8 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class MainWindow extends Scene {
-    public MainWindow() {
-        // TODO ADD ANOTHER LAYOUT
+    public MainWindow() {        
         super(new BorderPane(), windowWidth, windowHeight);
         rootLayout = (BorderPane) this.getRoot();    
         centerVbox = new VBox();   
@@ -56,6 +55,7 @@ public class MainWindow extends Scene {
         rightVbox = new VBox();
         symbolsListView = new MyListView(DB_Manager.getInstance().getAvailableSymbols());
         symbolsListView.setMaxHeight(windowHeight / 2);
+        symbolsListView.getSelectionModel().select(123);
         rightVbox.getChildren().add(symbolsListView);
         chartDrawerEventHandler.setSymbolsList(symbolsListView);
         symbolsListView.setOnMouseClicked(chartDrawerEventHandler);
@@ -70,6 +70,9 @@ public class MainWindow extends Scene {
 
         leftVbox = new VBox();
         rootLayout.setLeft(leftVbox);
+
+        ChartMoveHandler.setCenterBox(centerVbox);
+        ChartMoveHandler.setLeftBox(leftVbox);
 
     }
     //TODO REFACTOR THE METHOD
@@ -152,6 +155,8 @@ public class MainWindow extends Scene {
 
     private void cleanMainChart() {
         centerVbox.getChildren().removeAll(charts);
+        leftVbox.getChildren().removeAll(charts);
+        charts.clear();
     }
 
     private final static int windowWidth = 1200;
@@ -169,7 +174,7 @@ public class MainWindow extends Scene {
     String[] indicators = {"RSI", "MACD", "SMA"};
 
     private ComboBox<String> frequencyComboBox;
-    private final String[] frequencies = { "d", "h" };
+    private final String[] frequencies = { "d", "1h" };
 
     private Vector<String> datesVector;
     private Vector<Float> closePriceVector;

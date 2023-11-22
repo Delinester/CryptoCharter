@@ -12,7 +12,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-
+// TODO ADD MORE INDICATORS
 public class Indicators 
 {
     public static ConfigurableChart RSI(Vector<Float> closePrices, Vector<String> dates, int window)

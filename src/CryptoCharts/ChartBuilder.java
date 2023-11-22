@@ -17,6 +17,11 @@ public class ChartBuilder
         linechart.setCreateSymbols(false);
         linechart.getData().add(series);
         linechart.setCursor(Cursor.CROSSHAIR);
+        //
+        linechart.setHorizontalGridLinesVisible(false);
+        linechart.setVerticalGridLinesVisible(false);
+        linechart.setHorizontalZeroLineVisible(false);
+        linechart.setVerticalZeroLineVisible(false);
 
         ScrollableChart scrollableChart = new ScrollableChart(linechart, window);      
         scrollableChart.setSize(width,height);
