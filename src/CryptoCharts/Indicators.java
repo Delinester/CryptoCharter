@@ -15,10 +15,11 @@ import javafx.scene.chart.XYChart;
 
 public class Indicators 
 {
-    public static ScrollableChart RSI(Vector<Float> closePrices, Vector<String> dates)
+    public static ConfigurableChart RSI(Vector<Float> closePrices, Vector<String> dates, int window)
     {
         int indicatorWindow = 14;
-        ObservableList<String> datesList = FXCollections.observableArrayList(dates);
+        ObservableList<String> datesList = FXCollections.observableArrayList();
+        for (int i = 0; i < window; i++) datesList.add(dates.get(i));
         CategoryAxis xAxis = new CategoryAxis(datesList);
 
         ObservableList<Float> indicatorValues = FXCollections.observableArrayList();
@@ -45,7 +46,6 @@ public class Indicators
         }
 
         NumberAxis yAxis = new NumberAxis("RSI", 0, 100, 20);
-        LineChart indicatorChart = new LineChart(xAxis, yAxis);
 
         XYChart.Series<String, Float> series = new XYChart.Series<String, Float>();
         for (int i = indicatorWindow + 1; i < closePrices.size(); i++)
@@ -57,14 +57,7 @@ public class Indicators
             series.getData().add(data);
         }
 
-        xAxis.setTickLabelRotation(90);
-        yAxis.setSide(Side.RIGHT);
-        indicatorChart.setLegendVisible(false);
-        indicatorChart.setCreateSymbols(false);
-        indicatorChart.getData().add(series);
-        indicatorChart.setCursor(Cursor.CROSSHAIR);
 
-        ScrollableChart chart = new ScrollableChart(indicatorChart, closePrices.size());
-        return chart;
+        return new ConfigurableChart("RSI", xAxis, yAxis, series, window, 600, 200);
     }
 }

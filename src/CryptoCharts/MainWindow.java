@@ -31,7 +31,6 @@ public class MainWindow extends Scene {
         rootLayout = (BorderPane) this.getRoot();    
         centerVbox = new VBox();   
         centerVbox.setAlignment(Pos.TOP_RIGHT);
-        centerVbox.getChildren().add(mainChartName);
         rootLayout.setCenter(centerVbox);
 
         ChartDrawerEventHandler chartDrawerEventHandler = new ChartDrawerEventHandler(this);
@@ -85,15 +84,13 @@ public class MainWindow extends Scene {
         }
         ReadCSV csv = new ReadCSV("src\\CryptoCharts\\Charts\\" + fileName, ",", 0);
 
-        mainChartName.setText(symbol);
-
         datesVector = csv.getAllColumnValues("Date");
         closePriceVector = csv.getColumnAsFloat("Close");
         openPriceVector = csv.getColumnAsFloat("Open");
         highPriceVector = csv.getColumnAsFloat("High");
         lowPriceVector = csv.getColumnAsFloat("Low");
         
-        int window = 0;
+        window = 0;
         int numberOfEntries = datesVector.size();
         if (windowString.equals("full"))
             window = datesVector.size();
@@ -137,14 +134,19 @@ public class MainWindow extends Scene {
         }
 
 
-        ScrollableChart scrollableChart = ChartBuilder.makeChart(xAxis, yAxis, series, window, windowWidth/2, windowHeight/2);
-        charts.add(scrollableChart);
-        centerVbox.getChildren().add(scrollableChart);
+        ConfigurableChart configurableChart = new ConfigurableChart(fileName, xAxis, yAxis, series, 
+            window, windowWidth/2, windowHeight/2);
+        charts.add(configurableChart);
+        centerVbox.getChildren().add(configurableChart);
 
-        ScrollableChart rsi = Indicators.RSI(closePriceVector, datesVector);
-        rsi.setSize(600, 200);
+        constructIndicatorChart();
+    }
+
+    public void constructIndicatorChart()
+    {
+        ConfigurableChart rsi = Indicators.RSI(closePriceVector, datesVector, window);
         charts.add(rsi);
-        centerVbox.getChildren().add(rsi);
+        centerVbox.getChildren().addAll(rsi);
     }
 
     private void cleanMainChart() {
@@ -158,9 +160,8 @@ public class MainWindow extends Scene {
     private VBox centerVbox;
     private VBox rightVbox;
     private VBox leftVbox;
-    private Text mainChartName = new Text();
 
-    private ArrayList<ScrollableChart> charts = new ArrayList<ScrollableChart>();
+    private ArrayList<ConfigurableChart> charts = new ArrayList<ConfigurableChart>();
 
     private MyListView symbolsListView;
     private MyListView indicatorsListView;
@@ -174,4 +175,5 @@ public class MainWindow extends Scene {
     private Vector<Float> openPriceVector;
     private Vector<Float> highPriceVector;
     private Vector<Float> lowPriceVector;
+    private int window;
 }
