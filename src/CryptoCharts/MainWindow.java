@@ -30,7 +30,7 @@ public class MainWindow extends Scene {
         super(new BorderPane(), windowWidth, windowHeight);
         rootLayout = (BorderPane) this.getRoot();    
         centerVbox = new VBox();   
-        centerVbox.setAlignment(Pos.TOP_CENTER);
+        centerVbox.setAlignment(Pos.TOP_RIGHT);
         centerVbox.getChildren().add(mainChartName);
         rootLayout.setCenter(centerVbox);
 
@@ -121,12 +121,13 @@ public class MainWindow extends Scene {
         for (int i = 0; i < window; i++)
         {
             float close = closePrices.get(i);
-            float open = openPriceVector.get(window - 1 - i);
-            float high = highPriceVector.get(window - 1 - i);
-            float low = lowPriceVector.get(window - 1 - i);
+            String closeStr = Float.toString(close);
+            String open = Float.toString(openPriceVector.get(window - 1 - i));
+            String high = Float.toString(highPriceVector.get(window - 1 - i));
+            String low = Float.toString(lowPriceVector.get(window - 1 - i));
             String date = dates.get(i);
             XYChart.Data<String, Float> data = new XYChart.Data<String, Float>(date, close);
-            data.setNode(new ChartHoverInfo(date, close, open, high, low));
+            data.setNode(new ChartHoverInfo("Date: ", date, "Close: ", closeStr, "Open: ", open, "High: ", high, "Low: ", low));
             series.getData().add(data);
         }
 

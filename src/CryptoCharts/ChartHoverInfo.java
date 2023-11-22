@@ -3,35 +3,43 @@ package CryptoCharts;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.*;
 import javafx.scene.text.*;
+
+import java.util.Collections;
+
+import javax.tools.Tool;
+
 import javafx.event.*;
 import javafx.geometry.Pos;
 
 public class ChartHoverInfo extends StackPane
 {
-    public ChartHoverInfo(String date, float close, float open, float high, float low)
+    public ChartHoverInfo(String ... args)
     {
-        String closeValue = Float.toString(close);
-        String openValue = Float.toString(open);
-        String highValue = Float.toString(high);
-        String lowValue = Float.toString(low);
-
         VBox vbox = new VBox();
         vbox.setSpacing(vboxSpacing);
         vbox.setAlignment(Pos.TOP_CENTER);
 
         backgroundRect = new Rectangle();
-        backgroundRect.setWidth(rectWidthPerChar * date.length());
-        backgroundRect.setHeight(6 * (fontSize + vboxSpacing ));
-        backgroundRect.setFill(Paint.valueOf("grey"));          
+        int maxArgLen = 0;
+        for (String arg : args) if (arg.length() > maxArgLen) maxArgLen = arg.length();
 
-        dateText = getTextOf("Date: " + date);
-        closeText = getTextOf("Close: " + closeValue);
-        openText = getTextOf("Open: " + openValue);
-        highText = getTextOf("High: " + highValue);
-        lowText = getTextOf("Low: " + lowValue);
-        vbox.getChildren().addAll(dateText, closeText, openText, highText, lowText);
+        backgroundRect.setWidth(rectWidthPerChar * maxArgLen);
+        backgroundRect.setHeight((args.length / 2 + 1) * (fontSize + vboxSpacing ));
+        backgroundRect.setFill(Paint.valueOf(rectColor));    
+
+        String temp = "";
+        for (int i = 0; i < args.length; i++)
+        {
+            if (i % 2 == 0) temp = args[i];
+            else 
+            {
+                Text newText = getTextOf(temp + args[i]);
+                vbox.getChildren().add(newText);
+            }
+        }
 
         setAlignment(Pos.TOP_CENTER);
         setPrefSize(hoverableAreaWidth, hoverableAreaHeight);
@@ -65,8 +73,6 @@ public class ChartHoverInfo extends StackPane
         text.setFill(Paint.valueOf(fontColor));
         return text;
     }
-
-    private Text dateText, closeText, openText, highText, lowText;
 
     private Rectangle backgroundRect;
     private int rectWidthPerChar = 10;

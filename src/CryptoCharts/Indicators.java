@@ -53,7 +53,7 @@ public class Indicators
             String date = dates.get(i);
             float value = indicatorValues.get(i - indicatorWindow - 1);
             XYChart.Data<String, Float> data = new XYChart.Data<String, Float>(date, value);
-            data.setNode(new ChartHoverInfo(date, value, 0, 0, 0));
+            data.setNode(new ChartHoverInfo("Date: ", date, "RSI: ", Float.toString(value)));
             series.getData().add(data);
         }
 
