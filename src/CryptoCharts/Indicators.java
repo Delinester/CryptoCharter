@@ -19,7 +19,7 @@ public class Indicators
     {
         int indicatorWindow = 14;
         ObservableList<String> datesList = FXCollections.observableArrayList();
-        for (int i = 0; i < window; i++) datesList.add(dates.get(i));
+        for (int i = dates.size() - window; i < dates.size(); i++) datesList.add(dates.get(i));
         CategoryAxis xAxis = new CategoryAxis(datesList);
 
         ObservableList<Float> indicatorValues = FXCollections.observableArrayList();
@@ -48,8 +48,10 @@ public class Indicators
         NumberAxis yAxis = new NumberAxis("RSI", 0, 100, 20);
 
         XYChart.Series<String, Float> series = new XYChart.Series<String, Float>();
+        //for (int i = indicatorWindow + 1; i < closePrices.size(); i++)
         for (int i = indicatorWindow + 1; i < closePrices.size(); i++)
         {
+            if (i < closePrices.size() - window) continue;
             String date = dates.get(i);
             float value = indicatorValues.get(i - indicatorWindow - 1);
             XYChart.Data<String, Float> data = new XYChart.Data<String, Float>(date, value);

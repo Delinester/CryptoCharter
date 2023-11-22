@@ -90,7 +90,7 @@ public class MainWindow extends Scene {
         highPriceVector = csv.getColumnAsFloat("High");
         lowPriceVector = csv.getColumnAsFloat("Low");
         
-        window = 0;
+        //window = 0;
         int numberOfEntries = datesVector.size();
         if (windowString.equals("full"))
             window = datesVector.size();
