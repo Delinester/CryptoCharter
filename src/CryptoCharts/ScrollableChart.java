@@ -16,7 +16,7 @@ public class ScrollableChart extends ScrollPane
         final double width = viewPortWidth + window * tickWidth;
         setPrefViewportHeight(viewPortHeight);
         setPrefViewportWidth(viewPortWidth);
-        linechart.setMinSize(viewPortWidth, viewPortHeight);
+        linechart.setMaxSize(viewPortWidth, viewPortHeight);
 
         setOnScroll(event -> {
             //TODO Scale number axis according to the zoom 
@@ -59,8 +59,9 @@ public class ScrollableChart extends ScrollPane
         viewPortWidth = width;
         viewPortHeight = height;
         setPrefViewportWidth(width);
-        setPrefHeight(height);
-        chart.setMaxSize(width, height);        
+        setPrefViewportHeight(height);
+        chart.setMaxSize(width, height);      
+        chart.setPrefSize(width, height);  
         setMaxSize(viewPortWidth, viewPortHeight);
     }
 

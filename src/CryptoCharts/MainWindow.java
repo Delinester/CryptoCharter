@@ -7,9 +7,6 @@ import java.util.Vector;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.*;
@@ -31,16 +28,23 @@ public class MainWindow extends Scene {
     public MainWindow() {
         // TODO ADD ANOTHER LAYOUT
         super(new BorderPane(), windowWidth, windowHeight);
-        rootLayout = (BorderPane) this.getRoot();
-
-        TextField frequencyField = new TextField();
-        frequencyComboBox = new ComboBox<String>();
-        ObservableList<String> freqList = FXCollections.observableArrayList(frequencies);
-        frequencyComboBox.setItems(freqList);     
+        rootLayout = (BorderPane) this.getRoot();    
+        centerVbox = new VBox();   
+        centerVbox.setAlignment(Pos.TOP_CENTER);
+        centerVbox.getChildren().add(mainChartName);
+        rootLayout.setCenter(centerVbox);
 
         ChartDrawerEventHandler chartDrawerEventHandler = new ChartDrawerEventHandler(this);
 
+        TextField frequencyField = new TextField();
+        frequencyField.setText("full");
+
+        frequencyComboBox = new ComboBox<String>();
+        ObservableList<String> freqList = FXCollections.observableArrayList(frequencies);
+        frequencyComboBox.setItems(freqList);   
         frequencyComboBox.setOnAction(chartDrawerEventHandler);
+        frequencyComboBox.getSelectionModel().select(0);
+
         chartDrawerEventHandler.setFrequencyBox(frequencyComboBox);
         chartDrawerEventHandler.setWindowField(frequencyField);
 
@@ -50,7 +54,7 @@ public class MainWindow extends Scene {
         hbox.getChildren().addAll(frequencyComboBox, frequencyField);        
         rootLayout.setTop(hbox);
 
-        VBox rightVbox = new VBox();
+        rightVbox = new VBox();
         symbolsListView = new SymbolsListView(DB_Manager.getInstance().getAvailableSymbols());
         symbolsListView.setMaxHeight(windowHeight / 2);
         rightVbox.getChildren().add(symbolsListView);
@@ -58,10 +62,13 @@ public class MainWindow extends Scene {
         symbolsListView.setOnMouseClicked(chartDrawerEventHandler);
         rootLayout.setRight(rightVbox);
 
+        leftVbox = new VBox();
+        rootLayout.setLeft(leftVbox);
+
     }
     //TODO REFACTOR THE METHOD
-    public void constructChart(String symbol, String frequency, String windowString) {
-        //cleanChart();
+    public void constructChart(String symbol, String frequency, String windowString) {        
+        cleanMainChart();
         String fileName = "Binance_" + symbol + "_" + frequency + ".csv";
         String path = "src\\CryptoCharts\\Charts\\" + fileName;
         try {
@@ -71,12 +78,15 @@ public class MainWindow extends Scene {
             return;
         }
         ReadCSV csv = new ReadCSV("src\\CryptoCharts\\Charts\\" + fileName, ",", 0);
-        Vector<String> datesVector = csv.getAllColumnValues("Date");
-        Vector<Float> closePriceVector = csv.getColumnAsFloat("Close");
-        Vector<Float> openPriceVector = csv.getColumnAsFloat("Open");
-        Vector<Float> highPriceVector = csv.getColumnAsFloat("High");
-        Vector<Float> lowPriceVector = csv.getColumnAsFloat("Low");
 
+        mainChartName.setText(symbol);
+
+        datesVector = csv.getAllColumnValues("Date");
+        closePriceVector = csv.getColumnAsFloat("Close");
+        openPriceVector = csv.getColumnAsFloat("Open");
+        highPriceVector = csv.getColumnAsFloat("High");
+        lowPriceVector = csv.getColumnAsFloat("Low");
+        
         int window = 0;
         int numberOfEntries = datesVector.size();
         if (windowString.equals("full"))
@@ -130,18 +140,26 @@ public class MainWindow extends Scene {
         scrollableChart.setSize(600,400);
 
         charts.add(scrollableChart);
-        
-        rootLayout.setCenter(scrollableChart);;
+        centerVbox.getChildren().add(scrollableChart);
 
+        ScrollableChart rsi = Indicators.RSI(closePriceVector, datesVector);
+        rsi.setSize(600, 200);
+        charts.add(rsi);
+        centerVbox.getChildren().add(rsi);
     }
 
-    private void cleanChart() {
-        rootLayout.getChildren().removeAll(charts);
+    private void cleanMainChart() {
+        centerVbox.getChildren().removeAll(charts);
     }
 
     private final static int windowWidth = 1200;
     private final static int windowHeight = 800;
     private BorderPane rootLayout;
+
+    private VBox centerVbox;
+    private VBox rightVbox;
+    private VBox leftVbox;
+    private Text mainChartName = new Text();
 
     private ArrayList<ScrollableChart> charts = new ArrayList<ScrollableChart>();
 
@@ -149,4 +167,10 @@ public class MainWindow extends Scene {
 
     private ComboBox<String> frequencyComboBox;
     private final String[] frequencies = { "d", "h" };
+
+    private Vector<String> datesVector;
+    private Vector<Float> closePriceVector;
+    private Vector<Float> openPriceVector;
+    private Vector<Float> highPriceVector;
+    private Vector<Float> lowPriceVector;
 }

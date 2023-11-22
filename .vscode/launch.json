@@ -8,6 +8,13 @@
             "type": "java",
             "name": "BinanceSymbolsUploader",
             "request": "launch",
+            "mainClass": "CryptoCharts.Tools.BinanceSymbolsUploader",
+            "projectName": "CryptoCharts_1647047"
+        },
+        {
+            "type": "java",
+            "name": "BinanceSymbolsUploader",
+            "request": "launch",
             "mainClass": "CryptoCharts.BinanceSymbolsUploader",
             "projectName": "CryptoCharts_1647047"
         },
