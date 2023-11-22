@@ -27,8 +27,8 @@ public class ChartDrawerEventHandler implements EventHandler
     {
         if (event.getSource() == symbolsListRef || event.getSource() == frequencyComboBoxRef)
         {
-            SymbolsMiniPanel selectedItem = (SymbolsMiniPanel) symbolsListRef.getSelectionModel().getSelectedItem();
-            mainWindowRef.constructChart(selectedItem.getSymbol(), 
+            MiniPanel selectedItem = (MiniPanel) symbolsListRef.getSelectionModel().getSelectedItem();
+            mainWindowRef.constructChart(selectedItem.getText(), 
                 frequencyComboBoxRef.getSelectionModel().getSelectedItem(),
                 windowFieldRef.getText());
         }

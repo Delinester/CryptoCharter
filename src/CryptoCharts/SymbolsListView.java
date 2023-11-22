@@ -17,7 +17,7 @@ public class SymbolsListView extends ListView<Pane>
         ObservableList<Pane> panelsList  = FXCollections.observableArrayList();
         for (String symbol : symbols)
         {
-            panelsList.add(new SymbolsMiniPanel(symbol));            
+            panelsList.add(new MiniPanel(symbol));            
         }
         setItems(panelsList);
     }
