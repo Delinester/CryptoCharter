@@ -1,16 +1,10 @@
 package CryptoCharts;
 
-import java.util.Collections;
 import java.util.Vector;
-
-import javax.sound.sampled.Line;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Side;
-import javafx.scene.Cursor;
 import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 // TODO ADD MORE INDICATORS

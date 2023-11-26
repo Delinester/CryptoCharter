@@ -4,8 +4,6 @@ import java.sql.*;
 import java.util.Collections;
 import java.util.Vector;
 
-import javax.swing.plaf.nimbus.State;
-
 public class DB_Manager implements AutoCloseable {
     public static DB_Manager manager;
     public final static int MAX_CHARACTERS_LENGTH = 20;

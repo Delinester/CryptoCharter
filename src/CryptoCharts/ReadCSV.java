@@ -77,10 +77,6 @@ public class ReadCSV {
             return null;
     }
 
-    private void readCSVData() {
-
-    }
-
     private Scanner scanner;
     private HashMap<String, Vector<String>> table;
 }

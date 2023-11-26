@@ -3,13 +3,8 @@ package CryptoCharts;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.*;
 import javafx.scene.text.*;
-
-import java.util.Collections;
-
-import javax.tools.Tool;
 
 import javafx.event.*;
 import javafx.geometry.Pos;

@@ -3,8 +3,6 @@ package CryptoCharts;
 import javafx.geometry.Point2D;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Paint;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
@@ -87,10 +85,6 @@ public class ScrollableChart extends ScrollPane
     public void setBackgroundColor(String color)
     {
         chart.lookup(".chart-plot-background").setStyle("-fx-background-color: \"" + color + "\";");
-        //chart.lookup(".chart-alternative-row-fill").setStyle("-fx-fill: \"" + color + "\";");        
-        //chart.lookup(".chart-alternative-column-fill").setStyle("-fx-fill: \"" + color + "\";");
-        
-        //chart.lookup(".chart-content").setStyle("-fx-background-color: \"" + color + "\";");
     }
     
     private final int tickWidth = 14;
