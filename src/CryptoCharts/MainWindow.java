@@ -75,6 +75,9 @@ public class MainWindow extends Scene {
         ChartMoveHandler.setLeftBox(leftVbox);
 
     }
+
+    public static int getWindowWidth() {return windowWidth;}
+    public static int getWindowHeight() {return windowHeight;}
     //TODO REFACTOR THE METHOD
     public void constructChart(String symbol, String frequency, String windowString) {        
         cleanMainChart();
@@ -135,7 +138,7 @@ public class MainWindow extends Scene {
         }
 
 
-        ConfigurableChart configurableChart = new ConfigurableChart(fileName, xAxis, yAxis, series, 
+        ConfigurableChart configurableChart = new ConfigurableChart(symbol, xAxis, yAxis, series, 
             window, windowWidth/2, windowHeight/2);
         charts.add(configurableChart);
         centerVbox.getChildren().add(configurableChart);
@@ -176,7 +179,7 @@ public class MainWindow extends Scene {
 
     private MyListView symbolsListView;
     private MyListView indicatorsListView;
-    String[] indicators = {"RSI", "MACD", "SMA"};
+    String[] indicators = {"RSI", "MACD", "SMA 200"};
 
     private ComboBox<String> frequencyComboBox;
     private final String[] frequencies = { "d", "1h" };

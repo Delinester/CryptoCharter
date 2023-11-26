@@ -16,8 +16,6 @@ import javafx.scene.chart.XYChart;
 // TODO ADD MORE INDICATORS
 public class Indicators 
 {
-    public static int width = 600;
-    public static int height = 200;
 
     public static ConfigurableChart RSI(Vector<Float> closePrices, Vector<String> dates, int window)
     {
@@ -62,7 +60,7 @@ public class Indicators
             series.getData().add(data);
         }
         
-        return new ConfigurableChart("RSI", xAxis, yAxis, series, window, 600, 200);
+        return new ConfigurableChart("RSI", xAxis, yAxis, series, window, MainWindow.getWindowWidth() / 2, MainWindow.getWindowHeight() / 4);
     }
 
     public static ConfigurableChart SMA(Vector<Float> closePrices, Vector<String> dates, int window)
@@ -113,6 +111,6 @@ public class Indicators
         
         NumberAxis yAxis = new NumberAxis(minSMA - (maxSMA - minSMA) / 2, maxSMA + (maxSMA - minSMA) / 2, maxSMA / 10);
 
-        return new ConfigurableChart(indicatorName, xAxis, yAxis, series, window, width, height);
+        return new ConfigurableChart(indicatorName, xAxis, yAxis, series, window, MainWindow.getWindowWidth() / 2, MainWindow.getWindowHeight() / 4);
     }
 }

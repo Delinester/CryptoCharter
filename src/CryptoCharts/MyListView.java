@@ -15,6 +15,8 @@ public class MyListView extends ListView<Pane>
     public MyListView(Vector<String> symbols)
     {
         ObservableList<Pane> panelsList  = FXCollections.observableArrayList();
+        values = new String[symbols.size()];
+        symbols.copyInto(values);
         for (String symbol : symbols)
         {
             panelsList.add(new MiniPanel(symbol));            
@@ -25,11 +27,24 @@ public class MyListView extends ListView<Pane>
     public MyListView(String[] symbols)
     {
         ObservableList<Pane> panelsList  = FXCollections.observableArrayList();
+        values = symbols;
         for (String symbol : symbols)
         {
             panelsList.add(new MiniPanel(symbol));            
         }
         setItems(panelsList);
     }
+
+    public void search(String val)
+    {
+        ObservableList<Pane> panelsList  = FXCollections.observableArrayList();
+        for (String value : values)
+        {
+            if (value.startsWith(val)) panelsList.add(new MiniPanel(val));            
+        }
+        setItems(panelsList);
+    }
+
+    private String[] values;
     
 }
