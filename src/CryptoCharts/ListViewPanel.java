@@ -16,6 +16,7 @@ public class ListViewPanel extends VBox
             listView.search(searchField.getText());
         });
         setAlignment(Pos.CENTER);
+        setSpacing(5);
     }
     public ListViewPanel(String name, Vector<String> values)
     {

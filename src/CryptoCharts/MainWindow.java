@@ -68,6 +68,7 @@ public class MainWindow extends Scene {
 
         leftVbox = new VBox();
         rootLayout.setLeft(leftVbox);
+        leftVbox.setSpacing(15);
 
         ChartMoveHandler.setCenterBox(centerVbox);
         ChartMoveHandler.setLeftBox(leftVbox);
