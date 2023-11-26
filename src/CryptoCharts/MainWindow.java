@@ -29,7 +29,7 @@ public class MainWindow extends Scene {
         super(new BorderPane(), windowWidth, windowHeight);
         rootLayout = (BorderPane) this.getRoot();    
         centerVbox = new VBox();   
-        centerVbox.setAlignment(Pos.TOP_RIGHT);
+        centerVbox.setAlignment(Pos.TOP_CENTER);
         rootLayout.setCenter(centerVbox);
 
         ChartDrawerEventHandler chartDrawerEventHandler = new ChartDrawerEventHandler(this);
@@ -53,18 +53,19 @@ public class MainWindow extends Scene {
         rootLayout.setTop(hbox);
 
         rightVbox = new VBox();
-        symbolsListView = new MyListView(DB_Manager.getInstance().getAvailableSymbols());
+        symbolsListView = new ListViewPanel("Symbols", DB_Manager.getInstance().getAvailableSymbols());
         symbolsListView.setMaxHeight(windowHeight / 2);
-        symbolsListView.getSelectionModel().select(123);
         rightVbox.getChildren().add(symbolsListView);
-        chartDrawerEventHandler.setSymbolsList(symbolsListView);
-        symbolsListView.setOnMouseClicked(chartDrawerEventHandler);
+        chartDrawerEventHandler.setSymbolsList(symbolsListView.getListView());
+        symbolsListView.getListView().setOnMouseClicked(chartDrawerEventHandler);
 
-        indicatorsListView = new MyListView(indicators);
-        chartDrawerEventHandler.setIndicatorsList(indicatorsListView);
-        indicatorsListView.setMaxHeight(windowHeight / 2);
-        indicatorsListView.setOnMouseClicked(chartDrawerEventHandler);
+        indicatorsListView = new ListViewPanel("Indicators", indicators);
+        chartDrawerEventHandler.setIndicatorsList(indicatorsListView.getListView());
+        indicatorsListView.setMaxHeight(windowHeight / 3);
+        indicatorsListView.getListView().setOnMouseClicked(chartDrawerEventHandler);
         rightVbox.getChildren().add(indicatorsListView);
+
+        rightVbox.setSpacing(30);
         
         rootLayout.setRight(rightVbox);
 
@@ -153,7 +154,7 @@ public class MainWindow extends Scene {
                 charts.add(rsi);
                 centerVbox.getChildren().addAll(rsi);
                 break;
-            case "SMA":
+            case "SMA 200":
                 ConfigurableChart sma = Indicators.SMA(closePriceVector, datesVector, window);
                 charts.add(sma);
                 centerVbox.getChildren().addAll(sma);
@@ -177,8 +178,8 @@ public class MainWindow extends Scene {
 
     private ArrayList<ConfigurableChart> charts = new ArrayList<ConfigurableChart>();
 
-    private MyListView symbolsListView;
-    private MyListView indicatorsListView;
+    private ListViewPanel symbolsListView;
+    private ListViewPanel indicatorsListView;
     String[] indicators = {"RSI", "MACD", "SMA 200"};
 
     private ComboBox<String> frequencyComboBox;

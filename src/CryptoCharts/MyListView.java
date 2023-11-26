@@ -22,6 +22,7 @@ public class MyListView extends ListView<Pane>
             panelsList.add(new MiniPanel(symbol));            
         }
         setItems(panelsList);
+        getSelectionModel().select(0);
     }
 
     public MyListView(String[] symbols)
@@ -33,6 +34,7 @@ public class MyListView extends ListView<Pane>
             panelsList.add(new MiniPanel(symbol));            
         }
         setItems(panelsList);
+        getSelectionModel().select(0);
     }
 
     public void search(String val)
@@ -40,7 +42,7 @@ public class MyListView extends ListView<Pane>
         ObservableList<Pane> panelsList  = FXCollections.observableArrayList();
         for (String value : values)
         {
-            if (value.startsWith(val)) panelsList.add(new MiniPanel(val));            
+            if (value.startsWith(val)) panelsList.add(new MiniPanel(value));            
         }
         setItems(panelsList);
     }
