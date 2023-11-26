@@ -7,7 +7,6 @@ public class App extends Application{
   
     @Override  
     public void start(Stage primaryStage) throws Exception { 
-        //AuthWindow auth = new AuthWindow();
         primaryStage.setResizable(true);
         primaryStage.setTitle("Crypto Charter");
         primaryStage.setX(200);

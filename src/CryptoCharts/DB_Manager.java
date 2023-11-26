@@ -7,6 +7,7 @@ import java.util.Vector;
 public class DB_Manager implements AutoCloseable {
     public static DB_Manager manager;
     public final static int MAX_CHARACTERS_LENGTH = 20;
+    public final static int MIN_CHARACTERS_LENGTH = 4;
 
     public static DB_Manager getInstance()
     {

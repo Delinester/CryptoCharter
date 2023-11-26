@@ -23,18 +23,19 @@ public class AuthHandler implements EventHandler<MouseEvent>
     {
         Object source = event.getSource();
 
+        String errorMsg = String.format(PERMITTED_CHARACTERS_MSG, DB_Manager.MIN_CHARACTERS_LENGTH, DB_Manager.MAX_CHARACTERS_LENGTH);
         if (source == loginBtnRef)
         {
             String username = usernameFieldRef.getText();
             String password = passwordFieldRef.getText();
             if (!isFieldCorrect(username)) 
             {
-                infoMessageRef.setText("CHECK USERNAME!\n" + PERMITTED_CHARACTERS_MSG);
+                infoMessageRef.setText("CHECK USERNAME!\n" + errorMsg);
                 return;
             }
             else if (!isFieldCorrect(password))
             {
-                infoMessageRef.setText("CHECK PASSWORD!\n" + PERMITTED_CHARACTERS_MSG);
+                infoMessageRef.setText("CHECK PASSWORD!\n" + errorMsg);
                 return;
             }
 
@@ -51,15 +52,14 @@ public class AuthHandler implements EventHandler<MouseEvent>
         {
             String username = usernameFieldRef.getText().strip();
             String password = passwordFieldRef.getText();
-
             if (!isFieldCorrect(username)) 
             {
-                infoMessageRef.setText("CHECK USERNAME!" + PERMITTED_CHARACTERS_MSG);
+                infoMessageRef.setText("CHECK USERNAME!" + errorMsg);
                 return;
             }
             else if (!isFieldCorrect(password))
             {
-                infoMessageRef.setText("CHECK PASSWORD!" + PERMITTED_CHARACTERS_MSG);
+                infoMessageRef.setText("CHECK PASSWORD!" + errorMsg);
                 return;
             }
 
@@ -76,7 +76,7 @@ public class AuthHandler implements EventHandler<MouseEvent>
 
     private boolean isFieldCorrect(String field)
     {
-        if (field.length() > DB_Manager.MAX_CHARACTERS_LENGTH) return false;
+        if (field.length() > DB_Manager.MAX_CHARACTERS_LENGTH || field.length() < DB_Manager.MIN_CHARACTERS_LENGTH) return false;
         Pattern forbiddenCharactersPattern = Pattern.compile("[^a-zA-Z0-9\\@\\$\\#\\%\\^\\&\\*\\!]");
         Matcher matcher = forbiddenCharactersPattern.matcher(field);
         return !matcher.find();
@@ -90,6 +90,6 @@ public class AuthHandler implements EventHandler<MouseEvent>
 
     private final String SIGNUP_ON_SUCCESS_MSG = "Succesfully signed up! Now you can login!";
     private final String USER_ALREADY_EXISTS_MSG = "Cannot sign up! User already exists";
-    private final String PERMITTED_CHARACTERS_MSG = "Permitted characters are (a-z A-Z 0-9 !@#$%^&*)";
+    private final String PERMITTED_CHARACTERS_MSG = "There must be at least %d and at most %d characters in each field!\nPermitted characters are (a-z A-Z 0-9 !@#$^&*)";
     private final String INCORRECT_CREDENTIALS_MSG = "Incorrect credentials!";
 }

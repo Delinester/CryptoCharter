@@ -32,6 +32,7 @@ public class MainWindow extends Scene {
 
         TextField frequencyField = new TextField();
         frequencyField.setText("full");
+        frequencyField.setOnAction(chartDrawerEventHandler);
 
         frequencyComboBox = new ComboBox<String>();
         ObservableList<String> freqList = FXCollections.observableArrayList(frequencies);
