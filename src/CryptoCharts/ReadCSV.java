@@ -47,8 +47,11 @@ public class ReadCSV {
     //TODO Add checking the last time of document modification- if it was yesterday, than delete it and re-download
     public static long download(String url, String fileName) throws IOException {
         File file = new File(fileName);
-        if (file.exists() || file.isDirectory()) return 0;
+        long lastModified = file.lastModified();
+        long currentTime = System.currentTimeMillis();
+        if (file.exists() && ((currentTime - lastModified) / 1000.0 / 3600.0 < 24) || file.isDirectory()) return 0;
         try (InputStream in = URI.create(url).toURL().openStream()) {
+            if (file.exists()) file.delete();
             return Files.copy(in, Paths.get(fileName));
         }
     }
