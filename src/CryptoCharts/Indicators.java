@@ -1,5 +1,6 @@
 package CryptoCharts;
 
+import java.util.Collections;
 import java.util.Vector;
 
 import javax.sound.sampled.Line;
@@ -15,6 +16,9 @@ import javafx.scene.chart.XYChart;
 // TODO ADD MORE INDICATORS
 public class Indicators 
 {
+    public static int width = 600;
+    public static int height = 200;
+
     public static ConfigurableChart RSI(Vector<Float> closePrices, Vector<String> dates, int window)
     {
         int indicatorWindow = 14;
@@ -59,5 +63,56 @@ public class Indicators
         }
         
         return new ConfigurableChart("RSI", xAxis, yAxis, series, window, 600, 200);
+    }
+
+    public static ConfigurableChart SMA(Vector<Float> closePrices, Vector<String> dates, int window)
+    {
+        int indicatorWindow = 200;
+        String indicatorName = "SMA 200";
+
+        ObservableList<String> datesList = FXCollections.observableArrayList();
+        for (int i = dates.size() - window; i < dates.size(); i++) datesList.add(dates.get(i));
+        CategoryAxis xAxis = new CategoryAxis(datesList);
+
+        ObservableList<Float> indicatorValues = FXCollections.observableArrayList();
+
+        for (int i = 0; i < closePrices.size(); i++)
+        {
+            int initIdx = i - indicatorWindow - 1;
+            float avgPrice = 0;
+            if (initIdx >= 0)
+            {
+                for (int j = initIdx + 1; j < i; j++)
+                {
+                    avgPrice += closePrices.get(j);              
+                }
+
+                avgPrice /= indicatorWindow;
+                indicatorValues.add(avgPrice);
+            }        
+        }
+
+
+        XYChart.Series<String, Float> series = new XYChart.Series<String, Float>();
+
+        float minSMA = Float.POSITIVE_INFINITY;
+        float maxSMA = Float.NEGATIVE_INFINITY;
+
+        for (int i = indicatorWindow + 1; i < closePrices.size(); i++)
+        {
+            if (i < closePrices.size() - window) continue;
+            String date = dates.get(i);
+            float value = indicatorValues.get(i - indicatorWindow - 1);
+            if (value > maxSMA) maxSMA = value;
+            if (value < minSMA) minSMA = value;
+            XYChart.Data<String, Float> data = new XYChart.Data<String, Float>(date, value);
+            data.setNode(new ChartHoverInfo("Date: ", date, indicatorName + ": ", Float.toString(value)));
+            series.getData().add(data);
+        }
+
+        
+        NumberAxis yAxis = new NumberAxis(minSMA - (maxSMA - minSMA) / 2, maxSMA + (maxSMA - minSMA) / 2, maxSMA / 10);
+
+        return new ConfigurableChart(indicatorName, xAxis, yAxis, series, window, width, height);
     }
 }

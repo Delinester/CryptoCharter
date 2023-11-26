@@ -150,6 +150,11 @@ public class MainWindow extends Scene {
                 charts.add(rsi);
                 centerVbox.getChildren().addAll(rsi);
                 break;
+            case "SMA":
+                ConfigurableChart sma = Indicators.SMA(closePriceVector, datesVector, window);
+                charts.add(sma);
+                centerVbox.getChildren().addAll(sma);
+                break;
         }
     }
 
