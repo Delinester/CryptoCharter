@@ -19,18 +19,6 @@ public class DB_Manager implements AutoCloseable {
         return manager;
     }
 
-    public boolean initializeConnection() {
-        try {
-            connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/" + DATABASE_NAME + "?autoReconnect=true&useSSL=false", "root", "Delinester1429");
-            System.out.println("Connection to DB: SUCCESS");
-        } catch (SQLException e) {
-            System.out.println("Coudn't create connection: " + e.getMessage());
-            return false;
-        }
-        return true;
-    }
-
     public boolean addUser(String userName, String password) {
         Statement statement = null;
         try {
@@ -136,6 +124,18 @@ public class DB_Manager implements AutoCloseable {
         } catch (SQLException e) {
             System.out.println("Coudn't close the connection: " + e.getMessage());
         }
+    }
+    
+    private boolean initializeConnection() {
+        try {
+            connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/" + DATABASE_NAME + "?autoReconnect=true&useSSL=false", "root", "Delinester1429");
+            System.out.println("Connection to DB: SUCCESS");
+        } catch (SQLException e) {
+            System.out.println("Coudn't create connection: " + e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     private final String DATABASE_NAME = "cryptocharts";
