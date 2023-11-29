@@ -16,7 +16,15 @@ public class MyListView extends ListView<Pane>
         symbols.copyInto(values);
         for (String symbol : symbols)
         {
-            panelsList.add(new MiniPanel(symbol));            
+            boolean isIndicator = false;
+            for (String ind : Indicator.indicators)
+            {
+                if (ind == symbol) isIndicator = true;
+            }
+
+            if (!isIndicator)
+            panelsList.add(new MiniPanel(symbol));    
+            else panelsList.add(new IndicatorMiniPanel(symbol));   
         }
         setItems(panelsList);
         getSelectionModel().select(0);
@@ -28,7 +36,15 @@ public class MyListView extends ListView<Pane>
         values = symbols;
         for (String symbol : symbols)
         {
-            panelsList.add(new MiniPanel(symbol));            
+            boolean isIndicator = false;
+            for (String ind : Indicator.indicators)
+            {
+                if (ind == symbol) isIndicator = true;
+            }
+
+            if (!isIndicator)
+            panelsList.add(new MiniPanel(symbol));    
+            else panelsList.add(new IndicatorMiniPanel(symbol));   
         }
         setItems(panelsList);
         getSelectionModel().select(0);

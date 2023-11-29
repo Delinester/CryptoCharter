@@ -126,7 +126,7 @@ public class DB_Manager implements AutoCloseable {
         }
     }
     
-    private boolean initializeConnection() {
+    public boolean initializeConnection() {
         try {
             connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/" + DATABASE_NAME + "?autoReconnect=true&useSSL=false", "root", "Delinester1429");

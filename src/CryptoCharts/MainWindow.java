@@ -18,13 +18,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-
-
 public class MainWindow extends Scene {
-    public MainWindow() {        
+    public MainWindow() {
         super(new BorderPane(), windowWidth, windowHeight);
-        rootLayout = (BorderPane) this.getRoot();    
-        centerVbox = new VBox();   
+        rootLayout = (BorderPane) this.getRoot();
+        centerVbox = new VBox();
         centerVbox.setAlignment(Pos.TOP_CENTER);
         rootLayout.setCenter(centerVbox);
 
@@ -36,7 +34,7 @@ public class MainWindow extends Scene {
 
         frequencyComboBox = new ComboBox<String>();
         ObservableList<String> freqList = FXCollections.observableArrayList(frequencies);
-        frequencyComboBox.setItems(freqList);   
+        frequencyComboBox.setItems(freqList);
         frequencyComboBox.setOnAction(chartDrawerEventHandler);
         frequencyComboBox.getSelectionModel().select(0);
 
@@ -46,7 +44,7 @@ public class MainWindow extends Scene {
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.CENTER);
         hbox.setSpacing(10);
-        hbox.getChildren().addAll(frequencyComboBox, frequencyField);        
+        hbox.getChildren().addAll(frequencyComboBox, frequencyField);
         rootLayout.setTop(hbox);
 
         rightVbox = new VBox();
@@ -56,14 +54,14 @@ public class MainWindow extends Scene {
         chartDrawerEventHandler.setSymbolsList(symbolsListView.getListView());
         symbolsListView.getListView().setOnMouseClicked(chartDrawerEventHandler);
 
-        indicatorsListView = new ListViewPanel("Indicators", indicators);
+        indicatorsListView = new ListViewPanel("Indicators", Indicator.indicators);
         chartDrawerEventHandler.setIndicatorsList(indicatorsListView.getListView());
         indicatorsListView.setMaxHeight(windowHeight / 3);
         indicatorsListView.getListView().setOnMouseClicked(chartDrawerEventHandler);
         rightVbox.getChildren().add(indicatorsListView);
 
         rightVbox.setSpacing(30);
-        
+
         rootLayout.setRight(rightVbox);
 
         leftVbox = new VBox();
@@ -76,10 +74,16 @@ public class MainWindow extends Scene {
 
     }
 
-    public static int getWindowWidth() {return windowWidth;}
-    public static int getWindowHeight() {return windowHeight;}
-    //TODO REFACTOR THE METHOD
-    public void constructChart(String symbol, String frequency, String windowString) {        
+    public static int getWindowWidth() {
+        return windowWidth;
+    }
+
+    public static int getWindowHeight() {
+        return windowHeight;
+    }
+
+    // TODO REFACTOR THE METHOD
+    public void constructChart(String symbol, String frequency, String windowString) {
         cleanMainChart();
         String fileName = "Binance_" + symbol + "_" + frequency + ".csv";
         String path = "src\\CryptoCharts\\Charts\\" + fileName;
@@ -96,37 +100,37 @@ public class MainWindow extends Scene {
         openPriceVector = csv.getColumnAsFloat("Open");
         highPriceVector = csv.getColumnAsFloat("High");
         lowPriceVector = csv.getColumnAsFloat("Low");
-        
+
         int numberOfEntries = datesVector.size();
         if (windowString.equals("full"))
             window = datesVector.size();
         else
             window = Integer.parseInt(windowString);
-        
-        if (window < 1) return;
+
+        if (window < 1)
+            return;
 
         Collections.reverse(datesVector);
         Collections.reverse(closePriceVector);
 
         ObservableList<Float> closePrices = FXCollections.observableArrayList();
         for (int i = numberOfEntries - window; i < numberOfEntries; i++)
-             closePrices.add(closePriceVector.get(i));
+            closePrices.add(closePriceVector.get(i));
 
         ObservableList<String> dates = FXCollections.observableArrayList();
         for (int i = numberOfEntries - window; i < numberOfEntries; i++)
-             dates.add(datesVector.get(i));
+            dates.add(datesVector.get(i));
 
         float maxPrice = Collections.max(closePrices);
         float minPrice = Collections.min(closePrices);
 
         NumberAxis yAxis = new NumberAxis("price",
                 minPrice - minPrice / 100, maxPrice + maxPrice / 100, Collections.max(closePriceVector) / 100);
-        
+
         CategoryAxis xAxis = new CategoryAxis(dates);
 
         XYChart.Series<String, Float> series = new XYChart.Series<String, Float>();
-        for (int i = 0; i < window; i++)
-        {
+        for (int i = 0; i < window; i++) {
             float close = closePrices.get(i);
             String closeStr = Float.toString(close);
             String open = Float.toString(openPriceVector.get(window - 1 - i));
@@ -134,37 +138,22 @@ public class MainWindow extends Scene {
             String low = Float.toString(lowPriceVector.get(window - 1 - i));
             String date = dates.get(i);
             XYChart.Data<String, Float> data = new XYChart.Data<String, Float>(date, close);
-            data.setNode(new ChartHoverInfo("Date: ", date, "Close: ", closeStr, "Open: ", open, "High: ", high, "Low: ", low));
+            data.setNode(new ChartHoverInfo("Date: ", date, "Close: ", closeStr, "Open: ", open, "High: ", high,
+                    "Low: ", low));
             series.getData().add(data);
         }
 
-
-        ConfigurableChart configurableChart = new ConfigurableChart(symbol, xAxis, yAxis, series, 
-            window, windowWidth/2, windowHeight/2);
+        ConfigurableChart configurableChart = new ConfigurableChart(symbol, xAxis, yAxis, series,
+                window, windowWidth / 2, windowHeight / 2);
         charts.add(configurableChart);
         centerVbox.getChildren().add(configurableChart);
     }
 
-    public void constructIndicatorChart(String indicator)
-    {
-        switch (indicator)
-        {
-            case "RSI": 
-                ConfigurableChart rsi = Indicators.RSI(closePriceVector, datesVector, window);
-                charts.add(rsi);
-                centerVbox.getChildren().addAll(rsi);
-                break;
-            case "SMA 200":
-                ConfigurableChart sma = Indicators.SMA(closePriceVector, datesVector, window);
-                charts.add(sma);
-                centerVbox.getChildren().addAll(sma);
-                break;
-            case "EMA 12":
-                ConfigurableChart ema = Indicators.EMA(closePriceVector, datesVector, window);
-                charts.add(ema);
-                centerVbox.getChildren().addAll(ema);
-                break;
-        }
+    public void constructIndicatorChart(Indicator panel) {
+
+        ConfigurableChart chart = panel.getChart(closePriceVector, datesVector, window);
+        charts.add(chart);
+        centerVbox.getChildren().addAll(chart);
     }
 
     private void cleanMainChart() {
@@ -185,7 +174,6 @@ public class MainWindow extends Scene {
 
     private ListViewPanel symbolsListView;
     private ListViewPanel indicatorsListView;
-    String[] indicators = {"RSI", "MACD", "SMA 200", "EMA 12"};
 
     private ComboBox<String> frequencyComboBox;
     private final String[] frequencies = { "d", "1h" };

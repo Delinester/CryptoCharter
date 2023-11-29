@@ -1,8 +1,12 @@
 package CryptoCharts;
 
+import java.awt.Color;
+
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class MiniPanel extends StackPane
@@ -13,7 +17,8 @@ public class MiniPanel extends StackPane
         hbox.setAlignment(Pos.CENTER);
         mainText = new Text(text);
         hbox.getChildren().add(mainText);
-        getChildren().add(hbox);
+
+        getChildren().addAll(hbox);        
     }    
 
     public void setText(String text)

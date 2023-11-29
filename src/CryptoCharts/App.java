@@ -16,7 +16,7 @@ public class App extends Application{
         
         scenesManager.setMainStage(primaryStage);
         DB_Manager db = DB_Manager.getInstance();
-        primaryStage.show();        
+        primaryStage.show();       
     }  
     public static void main (String[] args)  
     {  

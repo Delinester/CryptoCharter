@@ -43,8 +43,8 @@ public class ChartDrawerEventHandler implements EventHandler
 
         else if (event.getSource() == indicatorsListRef)
         {
-            MiniPanel selectedItem = (MiniPanel) indicatorsListRef.getSelectionModel().getSelectedItem();
-            mainWindowRef.constructIndicatorChart(selectedItem.getText());
+            IndicatorMiniPanel selectedItem = (IndicatorMiniPanel) indicatorsListRef.getSelectionModel().getSelectedItem();
+            mainWindowRef.constructIndicatorChart(selectedItem.getIndicator());
         }
     }
 
