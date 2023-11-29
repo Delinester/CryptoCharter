@@ -13,6 +13,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class AuthWindow extends Scene
 {
@@ -24,10 +26,12 @@ public class AuthWindow extends Scene
         
         applicationHeader.setFont(Font.font(headerFontName, FontWeight.BOLD, headerFontSize));
 
+        ImageView img = new ImageView(new Image("File:src\\CryptoCharts\\Images\\logo.png"));
+        
         // Header 
         HBox headerBox = new HBox();
-        headerBox.setAlignment(Pos.CENTER);
-        headerBox.getChildren().add(applicationHeader);
+        headerBox.setAlignment(Pos.BOTTOM_CENTER);
+        headerBox.getChildren().add(img);
                 
         rootLayout.setTop(headerBox);
         //
