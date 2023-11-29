@@ -20,10 +20,12 @@ public class ConfigurableChart extends VBox
 
         leftMoveBtn = new Button("L");
         rightMoveBtn = new Button("R");
+        closeBtn = new Button("X");
 
-        chartMoveHandler = new ChartMoveHandler(leftMoveBtn, rightMoveBtn, this);
+        chartMoveHandler = new ChartMoveHandler(leftMoveBtn, rightMoveBtn, closeBtn, this);
         leftMoveBtn.setOnMouseClicked(chartMoveHandler);
         rightMoveBtn.setOnMouseClicked(chartMoveHandler);
+        closeBtn.setOnMouseClicked(chartMoveHandler);
 
         backgroundColorPicker.getStyleClass().add("button");
         lineColorPicker.getStyleClass().add("button");
@@ -39,7 +41,15 @@ public class ConfigurableChart extends VBox
             chart.setBackgroundColor(color.toString());
         });
 
-        configurationComponentsBox.getChildren().addAll(leftMoveBtn, backgroundColorPicker, lineColorPicker, rightMoveBtn);
+        HBox left = new HBox();
+        left.getChildren().addAll(leftMoveBtn, backgroundColorPicker, lineColorPicker, rightMoveBtn);
+        left.setAlignment(Pos.CENTER_LEFT);
+
+        HBox right = new HBox();
+        right.getChildren().add(closeBtn);
+        right.setAlignment(Pos.CENTER_RIGHT);
+
+        configurationComponentsBox.getChildren().addAll(left, right);
         configurationComponentsBox.setMaxHeight(lineColorPicker.getPrefHeight());
         
         setAlignment(Pos.CENTER);
@@ -64,6 +74,8 @@ public class ConfigurableChart extends VBox
 
     private Button leftMoveBtn;
     private Button rightMoveBtn;
+    private Button closeBtn;
+
     private boolean isOnRight = true;
 
     private ChartMoveHandler chartMoveHandler;

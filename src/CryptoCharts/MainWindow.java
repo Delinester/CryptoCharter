@@ -72,6 +72,7 @@ public class MainWindow extends Scene {
 
         ChartMoveHandler.setCenterBox(centerVbox);
         ChartMoveHandler.setLeftBox(leftVbox);
+        ChartMoveHandler.setLayouts(centerVbox, leftVbox);
 
     }
 
@@ -96,12 +97,13 @@ public class MainWindow extends Scene {
         highPriceVector = csv.getColumnAsFloat("High");
         lowPriceVector = csv.getColumnAsFloat("Low");
         
-        //window = 0;
         int numberOfEntries = datesVector.size();
         if (windowString.equals("full"))
             window = datesVector.size();
         else
             window = Integer.parseInt(windowString);
+        
+        if (window < 1) return;
 
         Collections.reverse(datesVector);
         Collections.reverse(closePriceVector);
@@ -157,6 +159,11 @@ public class MainWindow extends Scene {
                 charts.add(sma);
                 centerVbox.getChildren().addAll(sma);
                 break;
+            case "EMA 12":
+                ConfigurableChart ema = Indicators.EMA(closePriceVector, datesVector, window);
+                charts.add(ema);
+                centerVbox.getChildren().addAll(ema);
+                break;
         }
     }
 
@@ -178,7 +185,7 @@ public class MainWindow extends Scene {
 
     private ListViewPanel symbolsListView;
     private ListViewPanel indicatorsListView;
-    String[] indicators = {"RSI", "MACD", "SMA 200"};
+    String[] indicators = {"RSI", "MACD", "SMA 200", "EMA 12"};
 
     private ComboBox<String> frequencyComboBox;
     private final String[] frequencies = { "d", "1h" };
