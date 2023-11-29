@@ -26,7 +26,13 @@ public class IndicatorConfigMenu extends VBox
         // TODO ADD ability to create N-windowed indicators
         submitBtn.setOnMouseClicked(e ->
         {
-            mainWindowRef.constructIndicatorChart(((IndicatorMiniPanel)parentPane).getIndicator());
+            Indicator indicator = ((IndicatorMiniPanel)parentPane).getIndicator();
+            String[] parameters = indicator.getParams();
+            for (int i = 0; i < parameters.length; i++)
+            {
+                indicator.setValue(parameters[i], Integer.parseInt(textFields.get(i).getText()));
+            }
+            mainWindowRef.constructIndicatorChart(indicator);
         });
     }
 
@@ -65,7 +71,12 @@ public class IndicatorConfigMenu extends VBox
             hbox.getChildren().addAll(labels.get(i), textFields.get(i));
             getChildren().add(hbox);
         }
-        getChildren().addAll(submitBtn, closeBtn);
+
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setSpacing(10);
+        hBox.getChildren().addAll(submitBtn, closeBtn);
+        getChildren().add(hBox);
     }
 
     public Button getSubmitButton() { return submitBtn; }

@@ -13,6 +13,7 @@ import javafx.scene.chart.XYChart;
 public abstract class Indicator {
     public ConfigurableChart getChart(Vector<Float> closePrices, Vector<String> dates, int window) {
         int indicatorWindow = params.get("Window");
+        String chartHeader = indicatorName + " " + Integer.toString(indicatorWindow) + " day";
 
         ObservableList<String> datesList = FXCollections.observableArrayList();
         for (int i = dates.size() - window; i < dates.size(); i++)
@@ -42,7 +43,7 @@ public abstract class Indicator {
 
         NumberAxis yAxis = new NumberAxis(minSMA - (maxSMA - minSMA) / 2, maxSMA + (maxSMA - minSMA) / 2, maxSMA / 10);
 
-        return new ConfigurableChart(indicatorName, xAxis, yAxis, series, window, MainWindow.getWindowWidth() / 2,
+        return new ConfigurableChart(chartHeader, xAxis, yAxis, series, window, MainWindow.getWindowWidth() / 2,
                 MainWindow.getWindowHeight() / 4);
     }
 
@@ -50,6 +51,11 @@ public abstract class Indicator {
         String[] paramsArr = new String[params.keySet().size()];
         params.keySet().toArray(paramsArr);
         return paramsArr;
+    }
+
+    public void setValue(String key, Integer val)
+    {
+        params.replace(key, val);
     }
 
     public Integer getValue(String key)

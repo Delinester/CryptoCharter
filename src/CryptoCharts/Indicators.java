@@ -14,6 +14,7 @@ import javafx.scene.chart.XYChart;
     class RSI extends Indicator {
         public RSI() {
             params.put("Window", 14);
+            indicatorName = "RSI";
         }
 
         public ObservableList<Float> calculate(Vector<Float> closePrices, int indicatorWindow) {
@@ -45,6 +46,7 @@ import javafx.scene.chart.XYChart;
     class SMA extends Indicator {
         public SMA() {
             params.put("Window", 200);
+            indicatorName = "SMA";
         }
 
         public ObservableList<Float> calculate(Vector<Float> closePrices, int indicatorWindow) {
@@ -72,6 +74,7 @@ import javafx.scene.chart.XYChart;
         public EMA()
         {
             params.put("Window", 12);
+            indicatorName = "EMA";
         }
 
         public ObservableList<Float> calculate(Vector<Float> closePrices, int indicatorWindow) {

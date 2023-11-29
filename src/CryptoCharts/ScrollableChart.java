@@ -98,7 +98,7 @@ public class ScrollableChart extends ScrollPane
     private double zoomingSpeed = 3;
     double width;
 
-    private double dragStrength = 0.0003;
+    private double dragStrength = 0.0006;
 
     private LineChart chart;
 }
