@@ -16,12 +16,12 @@ public class IndicatorMiniPanel extends MiniPanel
             case "MACD": indicator = new EMA(); break;
         }
 
-        IndicatorConfigMenu m = new IndicatorConfigMenu(indicator.getParams());
+        IndicatorConfigMenu m = new IndicatorConfigMenu(this, indicator.getParams());
         for (String s : indicator.getParams())
         {
             m.setValue(s, indicator.getValue(s));
         }
-        setOnMouseClicked(e -> {
+        setOnMouseClicked(e -> {       
             getChildren().add(m);
         });
     

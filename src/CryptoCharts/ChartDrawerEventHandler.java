@@ -40,12 +40,12 @@ public class ChartDrawerEventHandler implements EventHandler
                 frequencyComboBoxRef.getSelectionModel().getSelectedItem(),
                 windowFieldRef.getText());
         }
-
+/*
         else if (event.getSource() == indicatorsListRef)
         {
             IndicatorMiniPanel selectedItem = (IndicatorMiniPanel) indicatorsListRef.getSelectionModel().getSelectedItem();
             mainWindowRef.constructIndicatorChart(selectedItem.getIndicator());
-        }
+        } */
     }
 
     private TextField windowFieldRef;

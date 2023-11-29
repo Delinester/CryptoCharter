@@ -55,9 +55,9 @@ public class MainWindow extends Scene {
         symbolsListView.getListView().setOnMouseClicked(chartDrawerEventHandler);
 
         indicatorsListView = new ListViewPanel("Indicators", Indicator.indicators);
-        chartDrawerEventHandler.setIndicatorsList(indicatorsListView.getListView());
+        //chartDrawerEventHandler.setIndicatorsList(indicatorsListView.getListView());
         indicatorsListView.setMaxHeight(windowHeight / 3);
-        indicatorsListView.getListView().setOnMouseClicked(chartDrawerEventHandler);
+        //indicatorsListView.getListView().setOnMouseClicked(chartDrawerEventHandler);
         rightVbox.getChildren().add(indicatorsListView);
 
         rightVbox.setSpacing(30);
@@ -72,6 +72,7 @@ public class MainWindow extends Scene {
         ChartMoveHandler.setLeftBox(leftVbox);
         ChartMoveHandler.setLayouts(centerVbox, leftVbox);
 
+        IndicatorConfigMenu.setMainWindowRef(this);
     }
 
     public static int getWindowWidth() {
