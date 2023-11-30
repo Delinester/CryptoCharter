@@ -44,7 +44,7 @@ public class ScrollableChart extends ScrollPane
             double deltaX = dragPosition.getX() - dragEvent.getScreenX(); 
             double deltaY = dragPosition.getY() - dragEvent.getScreenY();
             setHvalue(getHvalue() + deltaX * dragStrength);
-            setVvalue(getVvalue() + deltaY * dragStrength);
+            setVvalue(getVvalue() + deltaY * dragStrength * extraYdragStrength);
             dragPosition = new Point2D(dragEvent.getScreenX(), dragEvent.getScreenY());
         });
             // TODO Make the price axis fixed!!!
@@ -99,6 +99,7 @@ public class ScrollableChart extends ScrollPane
     double width;
 
     private double dragStrength = 0.0006;
+    private double extraYdragStrength = 3;
 
     private LineChart chart;
 }

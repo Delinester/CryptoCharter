@@ -64,7 +64,7 @@ public abstract class Indicator {
 
     public abstract ObservableList<Float> calculate(Vector<Float> closePrices, int indicatorWindow);
 
-    public static String[] indicators = { "RSI", "MACD", "SMA", "EMA" };
+    public static String[] indicators = { "RSI", "MACD", "SMA", "EMA", "WMA" };
 
     protected HashMap<String, Integer> params = new HashMap<>();
     protected String indicatorName;

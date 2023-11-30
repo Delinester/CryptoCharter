@@ -54,10 +54,10 @@ import javafx.scene.chart.XYChart;
             ObservableList<Float> indicatorValues = FXCollections.observableArrayList();
 
             for (int i = 0; i < closePrices.size(); i++) {
-                int initIdx = i - indicatorWindow - 1;
+                int initIdx = i - indicatorWindow;
                 float avgPrice = 0;
                 if (initIdx >= 0) {
-                    for (int j = initIdx + 1; j < i; j++) {
+                    for (int j = initIdx; j < i; j++) {
                         avgPrice += closePrices.get(j);
                     }
 
@@ -136,6 +136,35 @@ import javafx.scene.chart.XYChart;
         return indicatorValues;
     }
 
+    }    
+
+    class WMA extends Indicator
+    {
+        public WMA()
+        {
+            params.put("Window", 200);
+            indicatorName = "WMA";
+        }
+
+        public ObservableList<Float> calculate(Vector<Float> closePrices, int indicatorWindow)
+        {
+            ObservableList<Float> indicatorValues = FXCollections.observableArrayList();
+
+            for (int i = 0; i < closePrices.size(); i++) {
+                int initIdx = i - indicatorWindow ;
+                float avgPrice = 0;
+                if (initIdx >= 0) {
+                    for (int j = initIdx; j < i; j++) {
+                        avgPrice += closePrices.get(j) * (indicatorWindow - (j - initIdx + 1));
+                    }
+
+                    avgPrice /= (0.5 * (indicatorWindow * (indicatorWindow + 1)));
+                    indicatorValues.add(avgPrice);
+                }
+            }
+
+            return indicatorValues;
+        }
     }
 
 

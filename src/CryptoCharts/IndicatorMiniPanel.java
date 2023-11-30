@@ -14,6 +14,7 @@ public class IndicatorMiniPanel extends MiniPanel
             case "SMA": indicator = new SMA(); break;
             case "EMA": indicator = new EMA(); break;
             case "MACD": indicator = new MACD(); break;
+            case "WMA": indicator = new WMA(); break;
         }
 
         IndicatorConfigMenu m = new IndicatorConfigMenu(this, indicator.getParams());
