@@ -67,7 +67,7 @@ public class IndicatorConfigMenu extends VBox
         for (int i = 0; i < labels.size(); i++)
         {
             HBox hbox = new HBox();
-            hbox.setAlignment(Pos.CENTER);
+            hbox.setAlignment(Pos.CENTER_RIGHT);
             hbox.getChildren().addAll(labels.get(i), textFields.get(i));
             getChildren().add(hbox);
         }
