@@ -8,13 +8,21 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+// A class that represents a chart with configurable parameters: colors, moving buttons...
 public class ConfigurableChart extends VBox
 {
+    // Accept the data and chart parameters
     public ConfigurableChart(String name, Axis x, Axis y, XYChart.Series series, int window, int width, int height)
     {        
+        // Set up chart name that will be displayed as a header
         chartName = new Text(name);
+        chartName.setFont(Font.font(chartNameFont, FontWeight.BOLD, FontPosture.REGULAR, 15));
+
         chart = ChartBuilder.makeChart(x, y, series, window, width, height);
         setMaxWidth(width);
 
@@ -22,6 +30,7 @@ public class ConfigurableChart extends VBox
         rightMoveBtn = new Button("R");
         closeBtn = new Button("X");
 
+        // Assign move handler to buttons
         chartMoveHandler = new ChartMoveHandler(leftMoveBtn, rightMoveBtn, closeBtn, this);
         leftMoveBtn.setOnMouseClicked(chartMoveHandler);
         rightMoveBtn.setOnMouseClicked(chartMoveHandler);
@@ -31,11 +40,13 @@ public class ConfigurableChart extends VBox
         lineColorPicker.getStyleClass().add("button");
         lineColorPicker.setValue(Color.ORANGE);
         
+        // Change the chart color when a color is picked
         lineColorPicker.setOnAction((e) -> {
             Color color = lineColorPicker.getValue();
             chart.setStrokeColor(color.toString());
         });
 
+        // Change the background color when a color is picked
         backgroundColorPicker.setOnAction(e -> {
             Color color = backgroundColorPicker.getValue();
             chart.setBackgroundColor(color.toString());
@@ -56,6 +67,7 @@ public class ConfigurableChart extends VBox
         getChildren().addAll(chartName, configurationComponentsBox, chart);
     }
 
+    // One line methods 
     public boolean isOnRight() {return isOnRight;}
     public void setOnRight(boolean val) {isOnRight = val;}
 
@@ -64,8 +76,10 @@ public class ConfigurableChart extends VBox
     public double getChartHeight() {return chart.getHeight();};
 
     public void resetChartZoom() {chart.resetZoom();}
+    //
 
     private Text chartName;  
+    private String chartNameFont = "Tahoma";
     private ScrollableChart chart;
     private HBox configurationComponentsBox = new HBox();  
 

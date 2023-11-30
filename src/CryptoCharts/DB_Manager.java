@@ -4,8 +4,9 @@ import java.sql.*;
 import java.util.Collections;
 import java.util.Vector;
 
+// Database connector that uses singleton pattern
 public class DB_Manager implements AutoCloseable {
-    public static DB_Manager manager;
+    // Maximum permitted characters in fields
     public final static int MAX_CHARACTERS_LENGTH = 20;
     public final static int MIN_CHARACTERS_LENGTH = 4;
 
@@ -71,6 +72,7 @@ public class DB_Manager implements AutoCloseable {
         }
     }
 
+    // Retrieves vector of symbols from the database
     public Vector<String> getAvailableSymbols()
     {
         Statement statement = null;
@@ -95,6 +97,7 @@ public class DB_Manager implements AutoCloseable {
         return symbols;
     }
 
+    // Method that is used to upload available symbols to table (usually used when the table is not initialized)
     public void uploadSymbolsToTable(Vector<String> symbols)
     {
         Statement statement = null;
@@ -116,6 +119,7 @@ public class DB_Manager implements AutoCloseable {
         }
     }
 
+    // Serves as a destructor and must close the connection but for an unknown reason doesn't work
     @Override
     public void close() {
         try {
@@ -126,6 +130,7 @@ public class DB_Manager implements AutoCloseable {
         }
     }
     
+    // Connects the intance to the database
     public boolean initializeConnection() {
         try {
             connection = DriverManager.getConnection(
@@ -137,7 +142,7 @@ public class DB_Manager implements AutoCloseable {
         }
         return true;
     }
-
+    // Database for this application
     private final String DATABASE_NAME = "cryptocharts";
     private final String USERS_DATA_TABLE_NAME = "users_data";
     private final String SYMBOLS_DATA_TABLE_NAME = "symbols_data";
@@ -145,5 +150,6 @@ public class DB_Manager implements AutoCloseable {
     private final String SYMBOLS_COLUMN = "symbols_pair";
 
     private Connection connection;    
-    private DB_Manager() {}
+    private DB_Manager() {}    
+    private static DB_Manager manager;
 }

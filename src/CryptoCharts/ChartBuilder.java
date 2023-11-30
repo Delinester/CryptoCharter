@@ -8,6 +8,7 @@ import javafx.scene.chart.XYChart;
 
 public class ChartBuilder 
 {
+    // A simple method to construct charts with given data
     public static ScrollableChart makeChart(Axis x, Axis y, XYChart.Series series, int window, int width, int height)
     {
         LineChart linechart = new LineChart<>(x, y);

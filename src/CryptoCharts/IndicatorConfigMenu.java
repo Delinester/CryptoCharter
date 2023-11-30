@@ -11,11 +11,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+// Class that represents the menu that allows user to configure the indicator behaviour
 public class IndicatorConfigMenu extends VBox
 {
     public IndicatorConfigMenu(Pane parentPane, String ... params_)
     {        
-        parentPaneRef = parentPane;
         setAlignment(Pos.CENTER);
         for (String s: params_) params.put(s, 0);
         updateMenu();
@@ -23,19 +23,24 @@ public class IndicatorConfigMenu extends VBox
         closeBtn.setOnMouseClicked(e -> {
             parentPane.getChildren().remove(this);
         });
-        // TODO ADD ability to create N-windowed indicators
+
+        // When submit button is clicked, the indicator chart is drawn
         submitBtn.setOnMouseClicked(e ->
         {
             Indicator indicator = ((IndicatorMiniPanel)parentPane).getIndicator();
             String[] parameters = indicator.getParams();
             for (int i = 0; i < parameters.length; i++)
             {
-                indicator.setValue(parameters[i], Integer.parseInt(textFields.get(i).getText()));
+                int paramValue = Integer.parseInt(textFields.get(i).getText());
+                // If parameter is zero or negative, doesn't draw the chart
+                if (paramValue < 1) return;
+                indicator.setValue(parameters[i], paramValue);
             }
             mainWindowRef.constructIndicatorChart(indicator);
         });
     }
 
+    // Method for setting the reference
     public static void setMainWindowRef(MainWindow mainWindow) { mainWindowRef = mainWindow; }
 
     public void setValue(String key, Integer val)
@@ -49,6 +54,7 @@ public class IndicatorConfigMenu extends VBox
         return params.get(key);
     }
 
+    // Updates the setting menu according to the parameters and their values
     public void updateMenu()
     {
         if (getChildren() != null)
@@ -90,5 +96,4 @@ public class IndicatorConfigMenu extends VBox
     private Button closeBtn = new Button("Close");
 
     private static MainWindow mainWindowRef;
-    private Pane parentPaneRef;
 }

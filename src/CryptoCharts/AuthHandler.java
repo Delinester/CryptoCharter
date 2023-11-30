@@ -9,6 +9,7 @@ import java.util.regex.*;
 
 public class AuthHandler implements EventHandler<MouseEvent>
 {
+    // Keeping the references to fields and buttons
     public AuthHandler(Button loginBtn, Button signUpButton, TextField usernameField, TextField passwordField, Text infoMessage)
     {
         loginBtnRef = loginBtn;
@@ -22,7 +23,7 @@ public class AuthHandler implements EventHandler<MouseEvent>
     public void handle(MouseEvent event)
     {
         Object source = event.getSource();
-
+        // Format the error message according to the constants defined in DB_Manager
         String errorMsg = String.format(PERMITTED_CHARACTERS_MSG, DB_Manager.MIN_CHARACTERS_LENGTH, DB_Manager.MAX_CHARACTERS_LENGTH);
         if (source == loginBtnRef)
         {
@@ -73,7 +74,7 @@ public class AuthHandler implements EventHandler<MouseEvent>
                 infoMessageRef.setText(USER_ALREADY_EXISTS_MSG);
         }
     }
-
+    // Method for checking a field for forbidden characters
     private boolean isFieldCorrect(String field)
     {
         if (field.length() > DB_Manager.MAX_CHARACTERS_LENGTH || field.length() < DB_Manager.MIN_CHARACTERS_LENGTH) return false;

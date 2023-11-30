@@ -6,9 +6,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
+// Event handler for chart drawing
 public class ChartDrawerEventHandler implements EventHandler
 {
- 
+    // Keeping the references to crucial components
      public ChartDrawerEventHandler(MainWindow mainWindow) {
         mainWindowRef = mainWindow;
     }
@@ -24,14 +25,10 @@ public class ChartDrawerEventHandler implements EventHandler
     public void setFrequencyBox(ComboBox frequencyBox) {
         frequencyComboBoxRef = frequencyBox;
     }
-
-    public void setIndicatorsList(ListView<Pane> indicatorsList)
-    {
-        indicatorsListRef = indicatorsList;
-    }
-
+    //
     public void handle(Event event)
     {
+        // Draw the main chart if Symbol is selected OR frequency is changed OR textField value changed
         if (event.getSource() == symbolsListRef || event.getSource() == frequencyComboBoxRef || event.getSource() == windowFieldRef)
         {
             MiniPanel selectedItem = (MiniPanel) symbolsListRef.getSelectionModel().getSelectedItem();
@@ -40,17 +37,10 @@ public class ChartDrawerEventHandler implements EventHandler
                 frequencyComboBoxRef.getSelectionModel().getSelectedItem(),
                 windowFieldRef.getText());
         }
-/*
-        else if (event.getSource() == indicatorsListRef)
-        {
-            IndicatorMiniPanel selectedItem = (IndicatorMiniPanel) indicatorsListRef.getSelectionModel().getSelectedItem();
-            mainWindowRef.constructIndicatorChart(selectedItem.getIndicator());
-        } */
     }
 
     private TextField windowFieldRef;
     private ComboBox<String> frequencyComboBoxRef;
     private ListView<Pane> symbolsListRef;
-    private ListView<Pane> indicatorsListRef;
     private MainWindow mainWindowRef;
 }

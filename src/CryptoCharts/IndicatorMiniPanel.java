@@ -8,6 +8,7 @@ public class IndicatorMiniPanel extends MiniPanel
     {
         super(name);
 
+        // Depending on the indicator, add it to the panel
         switch (name)
         {
             case "RSI": indicator = new RSI(); break;
@@ -17,16 +18,18 @@ public class IndicatorMiniPanel extends MiniPanel
             case "WMA": indicator = new WMA(); break;
         }
 
-        IndicatorConfigMenu m = new IndicatorConfigMenu(this, indicator.getParams());
+        IndicatorConfigMenu indicatorConfigMenu = new IndicatorConfigMenu(this, indicator.getParams());
+        
+        // Set the parameters for config menu
         for (String s : indicator.getParams())
         {
-            m.setValue(s, indicator.getValue(s));
+            indicatorConfigMenu.setValue(s, indicator.getValue(s));
         }
+
+        // On click, if there is no config menu already, add the menu
         setOnMouseClicked(e -> {            
-            if (!getChildren().contains(m)) getChildren().add(m);
-        });
-    
-        
+            if (!getChildren().contains(indicatorConfigMenu)) getChildren().add(indicatorConfigMenu);
+        });       
     }
 
     public Indicator getIndicator() {return indicator;}

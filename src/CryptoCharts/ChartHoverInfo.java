@@ -9,8 +9,10 @@ import javafx.scene.text.*;
 import javafx.event.*;
 import javafx.geometry.Pos;
 
+// Node that is displayed when mouse hovers over the data point
 public class ChartHoverInfo extends StackPane
 {
+    // Accepts the parameters, for example Date, Closing Price, Low Price or pretty much anything that is present on a data point
     public ChartHoverInfo(String ... args)
     {
         VBox vbox = new VBox();
@@ -40,6 +42,7 @@ public class ChartHoverInfo extends StackPane
         setPrefSize(hoverableAreaWidth, hoverableAreaHeight);
         setBackground(Background.EMPTY);
 
+        // Draw the info panel when is hovered over
         setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event)
@@ -52,6 +55,7 @@ public class ChartHoverInfo extends StackPane
             }
         });
 
+        // Close the info panel when hover is done
         setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event)
@@ -61,6 +65,7 @@ public class ChartHoverInfo extends StackPane
         });        
     }
 
+    // Creates the Text object with predetermined parameters
     private Text getTextOf(String s)
     {
         Text text = new Text(s);

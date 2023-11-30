@@ -23,12 +23,11 @@ public class AuthWindow extends Scene
         super(new BorderPane(), windowWidth, windowHeight);
         authHandler = new AuthHandler(loginButton, signUpButton, usernameTextField, passwordTextField, infoMessage);
         BorderPane rootLayout = (BorderPane)this.getRoot();
-        
-        applicationHeader.setFont(Font.font(headerFontName, FontWeight.BOLD, headerFontSize));
 
+        // Image of the main logo
         ImageView img = new ImageView(new Image("File:src\\CryptoCharts\\Images\\logo.png"));
         
-        // Header 
+        // Header Pane
         HBox headerBox = new HBox();
         headerBox.setAlignment(Pos.BOTTOM_CENTER);
         headerBox.getChildren().add(img);
@@ -77,10 +76,8 @@ public class AuthWindow extends Scene
 
     private final double maxInputFieldWidth = 150D;
     private final int headerFontSize = 45;
-    private final String headerFontName = "Tahoma";
     private String infoMessageFontName = "SegoeUI";
 
-    private Text applicationHeader = new Text("Crypto Charter");
     private Label usernameLabel = new Label("Username: ");
     private Label passwordLabel = new Label("Password: ");
     private TextField usernameTextField = new TextField("User");
