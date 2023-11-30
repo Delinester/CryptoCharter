@@ -1,6 +1,7 @@
 package CryptoCharts;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
@@ -74,13 +75,14 @@ import javafx.scene.chart.XYChart;
         public EMA()
         {
             params.put("Window", 12);
+            params.put("Smoothing Factor", 2);
             indicatorName = "EMA";
         }
 
         public ObservableList<Float> calculate(Vector<Float> closePrices, int indicatorWindow) {
         ObservableList<Float> indicatorValues = FXCollections.observableArrayList();
 
-        float smoothingFactor = 2;
+        float smoothingFactor = params.get("Smoothing Factor");
         float emaMultiplier = smoothingFactor / (indicatorWindow + 1);
 
         for (int i = 0; i < closePrices.size(); i++) {
@@ -103,6 +105,37 @@ import javafx.scene.chart.XYChart;
 
         return indicatorValues;
     }
+    }
+
+    class MACD extends Indicator
+    {
+        public MACD()
+        {
+            params.put("Window", 26);
+            params.put("EMA 12", 12);
+            params.put("EMA 26", 26);
+            indicatorName = "MACD";
+        }
+
+        public ObservableList<Float> calculate(Vector<Float> closePrices, int indicatorWindow)
+        {
+        ObservableList<Float> indicatorValues = FXCollections.observableArrayList();
+
+        for (int i = 0; i < closePrices.size(); i++) {
+            int initIdx = i - indicatorWindow;
+
+            ObservableList<Float> ema26 = new EMA().calculate(closePrices, params.get("EMA 26"));
+            ObservableList<Float> ema12 = new EMA().calculate(closePrices, params.get("EMA 12"));
+
+            if (initIdx >= 0) {
+                float macd = ema26.get(initIdx) - ema12.get(initIdx);
+                indicatorValues.add(macd);
+            }
+        }
+
+        return indicatorValues;
+    }
+
     }
 
 

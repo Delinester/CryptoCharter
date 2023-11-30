@@ -13,7 +13,7 @@ public class IndicatorMiniPanel extends MiniPanel
             case "RSI": indicator = new RSI(); break;
             case "SMA": indicator = new SMA(); break;
             case "EMA": indicator = new EMA(); break;
-            case "MACD": indicator = new EMA(); break;
+            case "MACD": indicator = new MACD(); break;
         }
 
         IndicatorConfigMenu m = new IndicatorConfigMenu(this, indicator.getParams());

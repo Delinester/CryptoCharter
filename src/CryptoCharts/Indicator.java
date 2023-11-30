@@ -1,7 +1,6 @@
 package CryptoCharts;
 
 import java.util.HashMap;
-import java.util.Set;
 import java.util.Vector;
 
 import javafx.collections.FXCollections;
