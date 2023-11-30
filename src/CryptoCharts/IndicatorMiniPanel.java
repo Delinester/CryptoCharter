@@ -22,8 +22,8 @@ public class IndicatorMiniPanel extends MiniPanel
         {
             m.setValue(s, indicator.getValue(s));
         }
-        setOnMouseClicked(e -> {       
-            getChildren().add(m);
+        setOnMouseClicked(e -> {            
+            if (!getChildren().contains(m)) getChildren().add(m);
         });
     
         
