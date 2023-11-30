@@ -6,6 +6,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
+// A class that makes it possible to "Zoom" the chart even if one of the axes if Categorical
 public class ScrollableChart extends ScrollPane
 {
     public ScrollableChart(LineChart linechart, int window)
@@ -31,13 +32,14 @@ public class ScrollableChart extends ScrollPane
             double newWidth = width * currentZoomFactor;
             linechart.setMinWidth(newWidth < width ? newWidth : width);
         
+        // Save the position of point when mouse was pressed on the chart
         chart.setOnMousePressed(pressEvent ->
         {
             double x = pressEvent.getScreenX();
             double y = pressEvent.getScreenY();
             dragPosition = new Point2D(x, y);
         });
-
+        // When dragged, move the bars of the scroll pane
         chart.setOnMouseDragged(dragEvent ->
         {
             if (dragPosition == null) return;
@@ -87,6 +89,7 @@ public class ScrollableChart extends ScrollPane
         chart.lookup(".chart-plot-background").setStyle("-fx-background-color: \"" + color + "\";");
     }
     
+    // Approximate width of the tick on x axis
     private final int tickWidth = 14;
     
     double viewPortWidth = 600;

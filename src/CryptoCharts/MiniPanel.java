@@ -1,14 +1,12 @@
 package CryptoCharts;
 
-import java.awt.Color;
-
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+// Mini panel for symbols selection
+// Initially must have had extra info like High and Low values. For now, it is suspended
 public class MiniPanel extends StackPane
 {
     public MiniPanel(String text)

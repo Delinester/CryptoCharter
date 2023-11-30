@@ -13,6 +13,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -26,12 +27,15 @@ public class MainWindow extends Scene {
         centerVbox.setAlignment(Pos.TOP_CENTER);
         rootLayout.setCenter(centerVbox);
 
+        // Initializes event handler
         ChartDrawerEventHandler chartDrawerEventHandler = new ChartDrawerEventHandler(this);
 
+        Label windowLabel = new Label("Window: ");
         TextField frequencyField = new TextField();
         frequencyField.setText("full");
         frequencyField.setOnAction(chartDrawerEventHandler);
 
+        Label freqLabel = new Label("Frequency: ");
         frequencyComboBox = new ComboBox<String>();
         ObservableList<String> freqList = FXCollections.observableArrayList(frequencies);
         frequencyComboBox.setItems(freqList);
@@ -44,7 +48,7 @@ public class MainWindow extends Scene {
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.CENTER);
         hbox.setSpacing(10);
-        hbox.getChildren().addAll(frequencyComboBox, frequencyField);
+        hbox.getChildren().addAll(freqLabel, frequencyComboBox, windowLabel, frequencyField);
         rootLayout.setTop(hbox);
 
         rightVbox = new VBox();
@@ -55,9 +59,7 @@ public class MainWindow extends Scene {
         symbolsListView.getListView().setOnMouseClicked(chartDrawerEventHandler);
 
         indicatorsListView = new ListViewPanel("Indicators", Indicator.indicators);
-        //chartDrawerEventHandler.setIndicatorsList(indicatorsListView.getListView());
         indicatorsListView.setMaxHeight(windowHeight / 3);
-        //indicatorsListView.getListView().setOnMouseClicked(chartDrawerEventHandler);
         rightVbox.getChildren().add(indicatorsListView);
 
         rightVbox.setSpacing(30);
@@ -83,9 +85,9 @@ public class MainWindow extends Scene {
         return windowHeight;
     }
 
-    // TODO REFACTOR THE METHOD
-    public void constructChart(String symbol, String frequency, String windowString) {
+    public void constructChart(String symbol, String frequency, String windowString) {        
         cleanMainChart();
+        // Download the data from website
         String fileName = "Binance_" + symbol + "_" + frequency + ".csv";
         String path = "src\\CryptoCharts\\Charts\\" + fileName;
         try {
@@ -96,6 +98,7 @@ public class MainWindow extends Scene {
         }
         ReadCSV csv = new ReadCSV("src\\CryptoCharts\\Charts\\" + fileName, ",", 0);
 
+        // Retrieve values from the csv
         datesVector = csv.getAllColumnValues("Date");
         closePriceVector = csv.getColumnAsFloat("Close");
         openPriceVector = csv.getColumnAsFloat("Open");

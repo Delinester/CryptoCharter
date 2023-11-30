@@ -1,17 +1,11 @@
 package CryptoCharts;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 import java.util.Vector;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-
 // TODO ADD MORE INDICATORS
+// Classes that represent indicators
     class RSI extends Indicator {
         public RSI() {
             params.put("Window", 14);

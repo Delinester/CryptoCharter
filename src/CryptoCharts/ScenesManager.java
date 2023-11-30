@@ -1,6 +1,7 @@
 package CryptoCharts;
 import javafx.stage.*;
 
+// A class for changing scenes with singleton pattern
 public class ScenesManager 
 {
     public static ScenesManager instance;
@@ -14,7 +15,6 @@ public class ScenesManager
     public void setMainStage(Stage mainStage) 
     {
         mainStageRef = mainStage;
-        //openMainWindow();
         openAuthWindow();
     }
 

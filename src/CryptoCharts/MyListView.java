@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 
+// The listView with useful methods
 public class MyListView extends ListView<Pane> {
     public MyListView(Vector<String> symbols) {
         ObservableList<Pane> panelsList = FXCollections.observableArrayList();

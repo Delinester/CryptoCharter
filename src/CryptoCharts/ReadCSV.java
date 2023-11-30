@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Vector;
 
+// A class that can read and download csv data
 public class ReadCSV {
     public ReadCSV(String filePath, String delim, int skipRow) {
         try {

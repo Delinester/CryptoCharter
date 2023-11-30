@@ -1,7 +1,5 @@
 package CryptoCharts;
 
-import javafx.event.*;
-
 public class IndicatorMiniPanel extends MiniPanel 
 {
     IndicatorMiniPanel(String name)
